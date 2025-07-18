@@ -8,8 +8,8 @@ class base_test extends uvm_test;
     endfunction: new
 
     function void build_phase (uvm_phase phase);
-        uvm_config_wrapper::set(this, "top_env.tx_uvc.agent.sequencer.run_phase", "default_sequence", tx_sequence::get_type());
-        uvm_config_wrapper::set(this, "top_env.rx_uvc.agent.sequencer.run_phase", "default_sequence", rx_sequence::get_type());
+        uvm_config_wrapper::set(this, "top_env.tx_uvc.agent.sequencer.run_phase", "default_sequence", tx_test::get_type());
+        uvm_config_wrapper::set(this, "top_env.rx_uvc.agent.sequencer.run_phase", "default_sequence", rx_test::get_type());
 
         top_env = atb_test_env::type_id::create("top_env", this);
         `uvm_info(get_type_name, "BUILD PHASE RUNNING...", UVM_LOW)

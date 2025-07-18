@@ -44,10 +44,10 @@ endclass: rx_sequence
 //////////////////////////                         First Sequence                                   //////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class simple_test extends rx_sequence;
-     `uvm_object_utils(simple_test)
+class rx_test extends rx_sequence;
+     `uvm_object_utils(rx_test)
 
-    function new (string name = "simple_test");
+    function new (string name = "rx_test");
         super.new(name);
     endfunction
 

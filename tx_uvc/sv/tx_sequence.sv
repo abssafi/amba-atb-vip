@@ -44,10 +44,10 @@ endclass: tx_sequence
 //////////////////////////                         First Sequence                                   //////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class simple_test extends tx_sequence;
-     `uvm_object_utils(simple_test)
+class tx_test extends tx_sequence;
+     `uvm_object_utils(tx_test)
 
-    function new (string name = "simple_test");
+    function new (string name = "tx_test");
         super.new(name);
     endfunction
 
