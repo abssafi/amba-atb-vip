@@ -10,7 +10,7 @@ class tx_env extends uvm_env;
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         agent = tx_agent::type_id::create("agent", this);
-    endfunction: Build_phase
+    endfunction: build_phase
 
     function void start_of_simulation_phase(uvm_phase phase);
         `uvm_info(get_type_name(), "Running Tx env Simulation ...", UVM_LOW);
