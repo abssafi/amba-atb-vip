@@ -21,7 +21,7 @@ class tx_test extends uvm_test;
     task run_phase (uvm_phase phase);
         uvm_objection obj;
         obj = phase.get_objection();
-        obj.set_drain_time(this, 5ns;)
+        obj.set_drain_time(this, 5ns);
     endtask: run_phase
 
 endclass: tx_test
