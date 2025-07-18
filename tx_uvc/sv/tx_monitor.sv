@@ -59,7 +59,7 @@ class tx_monitor extends uvm_monitor;
     endtask : collect_packet
 
     function void report_phase(uvm_phase phase);
-        `uvm_info(get_type_name(), $sformatf("Report: Tx Monitor Collected %0d Packets", mon_pkt_col), UVM_HIGH)
+        `uvm_info(get_type_name(), $sformatf("Report: TX Monitor Collected %0d Packets", mon_pkt_col), UVM_HIGH)
     endfunction : report_phase
 
 endclass: tx_monitor
