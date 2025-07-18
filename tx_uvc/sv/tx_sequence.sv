@@ -45,13 +45,14 @@ class simple_test extends tx_sequence;
     endfunction
 
     task body();
+    tx_packet pkt;
         repeat(5) begin
-            tx_packet pkt = tx_packet::type_id::create("pkt");
+            pkt = tx_packet::type_id::create("pkt");
             start_item(pkt);
                 pkt.randomize();
                 `uvm_info("SEQ", $sformatf("Generate new item: %s", pkt.sprint()), UVM_LOW)
       	    finish_item(pkt);
         end
-        
     endtask
+
 endclass   

@@ -3,10 +3,8 @@ class tx_sequencer extends uvm_sequencer #(tx_packet);
 
     function new(string name = "tx_sequencer", uvm_component parent);
         super.new(name,parent);
+        `uvm_info(get_type_name(), "BUILD PHASE RUNNING...", UVM_LOW);
     endfunction: new
 
-    function void start_of_simulation_phase(uvm_phase phase);
-        `uvm_info(get_type_name(), "Running Tx Simulation ...", UVM_LOW);
-    endfunction: start_of_simulation_phase
     
 endclass

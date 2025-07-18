@@ -17,4 +17,8 @@ class tx_agent extends uvm_agent;
         `uvm_info(get_type_name(), "BUILD PHASE RUNNING...", UVM_LOW);
     endfunction: build_phase
 
+    function void connect_phase(uvm_phase phase);
+        driver.seq_item_port.connect(sequencer.seq_item_export);
+    endfunction: connect_phase
+
 endclass: tx_agent
