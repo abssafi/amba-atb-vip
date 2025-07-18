@@ -1,0 +1,60 @@
+class rx_sequence extends uvm_sequence#(rx_packet);
+    `uvm_object_utils(rx_sequence)
+
+    function new (string name = "rx_sequence");
+    super.new(name);
+    endfunction: new
+
+    task pre_body();
+        uvm_phase phase;
+        `ifdef UVM_VERSION_1_2
+            phase = get_starting_phase();
+        `else
+            phase = starting_phase;
+        `endif
+        if (phase != null) begin
+            phase.raise_objection(this, get_type_name());
+            `uvm_info(get_type_name(), "OBJECTION RAISED", UVM_MEDIUM)
+        end
+    endtask : pre_body
+
+    task body();
+        repeat(5) begin
+        `uvm_do(req)
+        end
+    endtask
+
+
+    task post_body();
+        uvm_phase phase;
+        `ifdef UVM_VERSION_1_2
+            phase = get_starting_phase();
+        `else
+            phase = starting_phase;
+        `endif
+        if (phase != null) begin
+            phase.drop_objection(this, get_type_name());
+            `uvm_info(get_type_name(), "OBJECTION DROPPED", UVM_MEDIUM)
+        end
+    endtask : post_body
+
+endclass: rx_sequence
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                         First Sequence                                   //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class simple_test extends rx_sequence;
+     `uvm_object_utils(simple_test)
+
+    function new (string name = "simple_test");
+        super.new(name);
+    endfunction
+
+    task body();
+        repeat(5) begin
+            `uvm_do(req)
+        end
+    endtask
+
+endclass   

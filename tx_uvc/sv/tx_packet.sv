@@ -4,7 +4,6 @@ class tx_packet extends uvm_sequence_item;
     bit atclken;
 
     /*Data Signals*/
-
     rand bit [31:0] atdata; // Trace data
     rand bit [1:0] atbytes; // The number of bytes on ATDATA to be captured, minus 1.
 
@@ -13,7 +12,6 @@ class tx_packet extends uvm_sequence_item;
     rand bit atvalid;            // A transfer is valid during this cycle
     rand bit afready;            // Flush signal
 
-    rand bit syncreq;            // Synchronization request signal
     rand bit atwakeup;           // Wake-up Signal
 
     /*Factory Registration*/
@@ -24,7 +22,6 @@ class tx_packet extends uvm_sequence_item;
         `uvm_field_int(atid, UVM_ALL_ON)
         `uvm_field_int(atvalid, UVM_ALL_ON)
         `uvm_field_int(afready, UVM_ALL_ON)
-        `uvm_field_int(syncreq, UVM_ALL_ON)
         `uvm_field_int(atwakeup, UVM_ALL_ON)
     `uvm_object_utils_end
 

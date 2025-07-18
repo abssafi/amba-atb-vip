@@ -1,11 +1,11 @@
-class tx_driver extends uvm_driver #(tx_packet);
-    `uvm_component_utils(tx_driver)
+class rx_driver extends uvm_driver #(rx_packet);
+    `uvm_component_utils(rx_driver)
 
-    function new (string name = "tx_driver", uvm_component parent);
+    function new (string name = "rx_driver", uvm_component parent);
         super.new(name, parent);
     endfunction:new 
 
-    virtual tx_if vif;
+    virtual rx_if vif;
     int count;
 
     function void build_phase(uvm_phase phase);
@@ -35,7 +35,7 @@ class tx_driver extends uvm_driver #(tx_packet);
     endfunction: report_phase
 
     function void connect_phase (uvm_phase phase);
-        if (!uvm_config_db#(virtual tx_if)::get(this, "", "vif", vif))
+        if (!uvm_config_db#(virtual rx_if)::get(this, "", "vif", vif))
         `uvm_fatal("NOVIF", "VIF in DRIVER is NOT SET")
     endfunction: connect_phase
 
@@ -44,16 +44,16 @@ class tx_driver extends uvm_driver #(tx_packet);
 //                  Driver Methods
 //------------------------------------------------------
 
-    task send_to_dut(tx_packet req);
+    task send_to_dut(rx_packet req);
         vif.atdata = req.atdata;
         vif.atbytes = req.atbytes;
         vif.atid = req.atid;
         vif.atvalid = req.atvalid;
         vif.afready = req.afready;
-        //vif.syncreq = req.syncreq;
+        vif.syncreq = req.syncreq;
         vif.atwakeup = req.atwakeup;
         `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet SENT: \n%s", count+1, req.sprint()), UVM_LOW)   
     endtask: send_to_dut
 
 
-endclass: tx_driver
+endclass: rx_driver
