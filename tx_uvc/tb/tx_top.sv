@@ -8,10 +8,10 @@ module tx_top;
 
     bit atclk, atresetn;
 
-    tx_if (.atclk, .atresetn);
+    tx_if t_if (.atclk, .atresetn);
 
     initial begin
-        tx_vif_config::set(null, "*.top_env.tx_uvc.agent.*", "vif", vif);
+        tx_vif_config::set(null, "*.top_env.tx_uvc.agent.*", "vif", t_if);
         run_test("tx_test");
     end
 

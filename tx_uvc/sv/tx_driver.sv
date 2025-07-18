@@ -53,7 +53,7 @@ class tx_driver extends uvm_driver #(tx_packet);
         vif.syncreq = req.syncreq;
         vif.atwakeup = req.atwakeup;
         `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet SENT: \n%s", count+1, req.sprint()), UVM_LOW)   
-    endtask: send_packets
+    endtask: send_to_dut
 
 
 endclass: tx_driver

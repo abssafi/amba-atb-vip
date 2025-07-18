@@ -53,7 +53,7 @@ class tx_monitor extends uvm_monitor;
         pkt.atvalid  = vif.atvalid;
         pkt.afready = vif.afready;
 
-        `uvm_info(get_type_name(), $sformatf("Packet is \n%s", pkt.sprint()), UVM_HIGH)  
+        `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet is \n%s", mon_pkt_col+1, pkt.sprint()), UVM_HIGH)  
 
     endtask : collect_packet
 
