@@ -24,9 +24,12 @@ class tx_monitor extends uvm_monitor;
             `uvm_fatal(get_type_name(), "TX INTERFACE not accessible!")
     
         `uvm_info(get_type_name(), $sformatf("Executing Monitor Run Phase!"), UVM_HIGH)
-
+        
         @(posedge vif.atclk);
         
+        wait(vif.atresetn == 0);
+        `uvm_info(get_type_name(), "Reset Deasserted!", UVM_LOW);
+
         forever begin           
             @(posedge vif.atclk); 
 

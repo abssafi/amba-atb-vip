@@ -18,6 +18,8 @@ class tx_driver extends uvm_driver #(tx_packet);
         if (vif == null)
             `uvm_fatal(get_type_name(), "Driver VIF is NULL in run_phase")
 
+        wait(vif.atresetn == 0);
+        `uvm_info(get_type_name(), "Reset Deasserted!", UVM_LOW);
         forever begin
             @(negedge vif.atclk);
             seq_item_port.get_next_item(req);
