@@ -14,12 +14,12 @@ class tx_monitor extends uvm_monitor;
         `uvm_info(get_type_name(), "BUILD PHASE RUNNING...", UVM_LOW);
     endfunction: build_phase
 
-    virtual function void connect_phase(uvm_phase phase);
+    function void connect_phase(uvm_phase phase);
         if (!tx_vif_config::get(this,"","vif", vif))
             `uvm_error("NOVIF","vif not set")
-    endfunction
+    endfunction: connect_phase
 
-    virtual task run_phase(uvm_phase phase);
+    task run_phase(uvm_phase phase);
         if(vif == null)
             `uvm_fatal(get_type_name(), "TX INTERFACE not accessible!")
     
@@ -40,12 +40,17 @@ class tx_monitor extends uvm_monitor;
             mon_pkt_col++;
                     
         end
-    
-    
-    endtask : run_phase
+    endtask: run_phase
+
+    function void report_phase(uvm_phase phase);
+        `uvm_info(get_type_name(), $sformatf("TX MONITOR Sent Packets: %0d ", mon_pkt_col), UVM_HIGH)
+    endfunction: report_phase
+
+//------------------------------------------------------
+//                  Driver Methods
+//------------------------------------------------------
 
     task collect_packet(input tx_packet pkt);
-        
         pkt.atclken = vif.atclken;
         pkt.atdata = vif.atdata;
         pkt.atbytes = vif.atbytes;
@@ -53,13 +58,7 @@ class tx_monitor extends uvm_monitor;
         pkt.atvalid  = vif.atvalid;
         pkt.afready = vif.afready;
         pkt.atwakeup = vif.atwakeup;
-
         `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet is \n%s", mon_pkt_col+1, pkt.sprint()), UVM_HIGH)  
-
     endtask : collect_packet
-
-    function void report_phase(uvm_phase phase);
-        `uvm_info(get_type_name(), $sformatf("Report: TX Monitor Collected %0d Packets", mon_pkt_col), UVM_HIGH)
-    endfunction : report_phase
 
 endclass: tx_monitor
