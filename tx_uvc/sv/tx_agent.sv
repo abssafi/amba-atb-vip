@@ -1,0 +1,20 @@
+class tx_agent extends uvm_agent;.
+    `uvm_component_utils(tx_agent)
+
+    tx_driver driver;
+    tx_monitor monitor;
+    tx_sequencer sequencer;
+
+    function new (string name = "tx_agent", uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+
+    function void build_phase (uvm_phase phase);
+        driver = tx_driver::type_id::create("driver", this);
+        monitor = tx_monitor::type_id::create("monitor". this);
+        sequencer = tx_sequencer::type_id::create("tx_sequencer", this);
+        super.build_phase(phase);
+        `uvm_info(get_type_name(), "BUILD PHASE RUNNING...", UVM_LOW);
+    endfunction: build_phase
+
+endclass: tx_agent
