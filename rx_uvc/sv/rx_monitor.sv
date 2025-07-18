@@ -1,7 +1,7 @@
 class rx_monitor extends uvm_monitor;
     `uvm_component_utils(rx_monitor)
 
-    virtual rx_if vif;
+    virtual atb_if vif;
     int mon_pkt_col;
     rx_packet pkt;
 
@@ -15,7 +15,7 @@ class rx_monitor extends uvm_monitor;
     endfunction: build_phase
 
     function void connect_phase(uvm_phase phase);
-        if (!rx_vif_config::get(this,"","vif", vif))
+        if (!uvm_config_db#(virtual atb_if)::get(this,"","vif", vif))
             `uvm_error("NOVIF","vif not set")
     endfunction: connect_phase
 
@@ -32,13 +32,12 @@ class rx_monitor extends uvm_monitor;
 
         forever begin           
             @(posedge vif.atclk); 
-
+            @(vif.atready && vif.atvalid)
             `uvm_info(get_type_name(), "Transaction Detected in Monitor", UVM_HIGH)
-
             pkt = rx_packet::type_id::create("pkt", this);
-            collect_packet(pkt);
+            //collect_packet(pkt);
+            `uvm_info(get_type_name(), $sformatf("atdata : %0h | atbytes : %0h | atid : %0h", vif.atdata, vif.atbytes, vif.atid), UVM_LOW)
             mon_pkt_col++;
-                    
         end
     endtask: run_phase
 

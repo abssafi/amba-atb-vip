@@ -52,9 +52,25 @@ class simple_test extends tx_sequence;
     endfunction
 
     task body();
-        repeat(5) begin
-            `uvm_do(req)
-        end
+
+        `uvm_create(req)
+            req.atdata = 32'h1234FFFF;
+            req.atbytes = 2'b10;
+            req.atvalid = 0;
+        `uvm_send(req)
+
+        `uvm_create(req)
+            req.atdata = 32'h1234FFFF;
+            req.atbytes = 2'b10;
+            req.atvalid = 1;
+        `uvm_send(req)
+
+        `uvm_create(req)
+            req.atdata = 32'hABCDFFFF;
+            req.atbytes = 2'b11;
+            req.atvalid = 1;
+        `uvm_send(req)
+
     endtask
 
 endclass   

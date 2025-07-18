@@ -5,7 +5,7 @@ class tx_driver extends uvm_driver #(tx_packet);
         super.new(name, parent);
     endfunction:new 
 
-    virtual tx_if vif;
+    virtual atb_if vif;
     int count;
 
     function void build_phase(uvm_phase phase);
@@ -35,7 +35,7 @@ class tx_driver extends uvm_driver #(tx_packet);
     endfunction: report_phase
 
     function void connect_phase (uvm_phase phase);
-        if (!uvm_config_db#(virtual tx_if)::get(this, "", "vif", vif))
+        if (!uvm_config_db#(virtual atb_if)::get(this, "", "vif", vif))
         `uvm_fatal("NOVIF", "VIF in DRIVER is NOT SET")
     endfunction: connect_phase
 

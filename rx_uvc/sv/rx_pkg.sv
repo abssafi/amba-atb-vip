@@ -1,6 +1,6 @@
 package rx_pkg;
     import uvm_pkg::*;
-    typedef uvm_config_db#(virtual rx_if) rx_vif_config;
+    //typedef uvm_config_db#(virtual tx_if) rx_vif_config;
 
     `include "uvm_macros.svh"
     

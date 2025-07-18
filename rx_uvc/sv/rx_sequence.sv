@@ -52,9 +52,22 @@ class simple_test extends rx_sequence;
     endfunction
 
     task body();
-        repeat(5) begin
-            `uvm_do(req)
-        end
+        `uvm_create(req)
+        req.atready = 0;
+        `uvm_send(req)
+
+        #1;
+
+        `uvm_create(req)
+        req.atready = 1;
+        `uvm_send(req)
+        
+        #5;
+
+        `uvm_create(req)
+        req.atready = 1;
+        `uvm_send(req)
+
     endtask
 
 endclass   

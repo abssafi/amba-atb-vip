@@ -4,19 +4,15 @@ class rx_packet extends uvm_sequence_item;
     bit atclken;
 
     /*Data Signals*/
-    rand bit [31:0] atdata; // Trace data
-    rand bit [1:0] atbytes; // The number of bytes on ATDATA to be captured, minus 1.
-
-    rand bit [6:0] atid;    // An ID that uniquely identifies the source of the trace
-
-    rand bit atvalid;            // A transfer is valid during this cycle
-    rand bit afready;            // Flush signal
-
-    rand bit atwakeup;           // Wake-up Signal
+    bit [31:0] atdata; // Trace data
+    bit [1:0] atbytes; // The number of bytes on ATDATA to be captured, minus 1.
+    bit [6:0] atid;    // An ID that uniquely identifies the source of the trace
+    bit atvalid;            // A transfer is valid during this cycle
+    bit afready;            // Flush signal
+    bit atwakeup;           // Wake-up Signal
 
     rand bit afvalid;     // The flush signal to indicate that all buffers must be flushed because trace capture is about to stop
     rand bit atready;     // The Receiver is ready to accept data
-
     rand bit syncreq;     // Synchronization request signal
     
     /*Factory Registration*/

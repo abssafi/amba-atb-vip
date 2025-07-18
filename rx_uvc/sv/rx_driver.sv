@@ -5,7 +5,7 @@ class rx_driver extends uvm_driver #(rx_packet);
         super.new(name, parent);
     endfunction:new 
 
-    virtual rx_if vif;
+    virtual atb_if vif;
     int count;
 
     function void build_phase(uvm_phase phase);
@@ -21,7 +21,7 @@ class rx_driver extends uvm_driver #(rx_packet);
         wait(vif.atresetn == 0);
         `uvm_info(get_type_name(), "Reset Deasserted!", UVM_LOW);
         forever begin
-            @(negedge vif.atclk);
+            @(posedge vif.atclk);
             seq_item_port.get_next_item(req);
             send_to_dut(req);
             count++;
@@ -35,7 +35,7 @@ class rx_driver extends uvm_driver #(rx_packet);
     endfunction: report_phase
 
     function void connect_phase (uvm_phase phase);
-        if (!uvm_config_db#(virtual rx_if)::get(this, "", "vif", vif))
+        if (!uvm_config_db#(virtual atb_if)::get(this, "", "vif", vif))
         `uvm_fatal("NOVIF", "VIF in DRIVER is NOT SET")
     endfunction: connect_phase
 
@@ -45,13 +45,7 @@ class rx_driver extends uvm_driver #(rx_packet);
 //------------------------------------------------------
 
     task send_to_dut(rx_packet req);
-        vif.atdata = req.atdata;
-        vif.atbytes = req.atbytes;
-        vif.atid = req.atid;
-        vif.atvalid = req.atvalid;
-        vif.afready = req.afready;
-        vif.syncreq = req.syncreq;
-        vif.atwakeup = req.atwakeup;
+        vif.atready = req.atready;
         `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet SENT: \n%s", count+1, req.sprint()), UVM_LOW)   
     endtask: send_to_dut
 

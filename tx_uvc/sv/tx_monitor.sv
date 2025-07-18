@@ -1,7 +1,7 @@
 class tx_monitor extends uvm_monitor;
     `uvm_component_utils(tx_monitor)
 
-    virtual tx_if vif;
+    virtual atb_if vif;
     int mon_pkt_col;
     tx_packet pkt;
 
@@ -15,7 +15,7 @@ class tx_monitor extends uvm_monitor;
     endfunction: build_phase
 
     function void connect_phase(uvm_phase phase);
-        if (!tx_vif_config::get(this,"","vif", vif))
+        if (!uvm_config_db#(virtual atb_if)::get(this,"","vif", vif))
             `uvm_error("NOVIF","vif not set")
     endfunction: connect_phase
 
