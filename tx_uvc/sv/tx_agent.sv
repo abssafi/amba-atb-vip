@@ -12,7 +12,7 @@ class tx_agent extends uvm_agent;
     function void build_phase (uvm_phase phase);
         driver = tx_driver::type_id::create("driver", this);
         monitor = tx_monitor::type_id::create("monitor", this);
-        sequencer = tx_sequencer::type_id::create("tx_sequencer", this);
+        sequencer = tx_sequencer::type_id::create("sequencer", this);
         super.build_phase(phase);
         `uvm_info(get_type_name(), "BUILD PHASE RUNNING...", UVM_LOW);
     endfunction: build_phase

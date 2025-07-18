@@ -18,6 +18,13 @@ class tx_sequence extends uvm_sequence#(tx_packet);
         end
     endtask : pre_body
 
+    task body();
+        repeat(5) begin
+        `uvm_do(req)
+        end
+    endtask
+
+
     task post_body();
         uvm_phase phase;
         `ifdef UVM_VERSION_1_2
@@ -38,20 +45,15 @@ endclass: tx_sequence
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class simple_test extends tx_sequence;
-    `uvm_object_utils(simple_test)
+     `uvm_object_utils(simple_test)
 
     function new (string name = "simple_test");
         super.new(name);
     endfunction
 
     task body();
-    tx_packet pkt;
         repeat(5) begin
-            pkt = tx_packet::type_id::create("pkt");
-            start_item(pkt);
-                pkt.randomize();
-                `uvm_info("SEQ", $sformatf("Generate new item: %s", pkt.sprint()), UVM_LOW)
-      	    finish_item(pkt);
+            `uvm_do(req)
         end
     endtask
 

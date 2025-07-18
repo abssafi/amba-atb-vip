@@ -5,6 +5,8 @@ class tx_driver extends uvm_driver #(tx_packet);
         super.new(name, parent);
     endfunction:new 
 
+    int count;
+
     function void build_phase(uvm_phase phase);
         super.build_phase (phase);
         `uvm_info(get_type_name(), "BUILD PHASE RUNNING...", UVM_LOW);
@@ -15,10 +17,15 @@ class tx_driver extends uvm_driver #(tx_packet);
         forever begin
             seq_item_port.get_next_item(req);
             `uvm_info(get_type_name(), $sformatf("Packet RECEIVED: \n%s", req.sprint()), UVM_LOW)
+            count++;
             seq_item_port.item_done(req);
         end
 
     endtask: run_phase
+
+    function void report_phase (uvm_phase phase);
+        `uvm_info(get_type_name(), $sformatf("Packet RECEIVED: %0d", count), UVM_LOW);
+    endfunction: report_phase
 
     // function void connect_phase (uvm_phase phase);
     //     if (!uvm_config_db#(virtual tx_if)::get(this, "", "vif", vif))
