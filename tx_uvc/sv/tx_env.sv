@@ -13,6 +13,6 @@ class tx_env extends uvm_env;
     endfunction: Build_phase
 
     function void start_of_simulation_phase(uvm_phase phase);
-        `uvm_info(get_type_name(), "Running Environment Simulation ...", UVM_LOW);
+        `uvm_info(get_type_name(), "Running Tx env Simulation ...", UVM_LOW);
     endfunction: start_of_simulation_phase
 endclass: tx_env
