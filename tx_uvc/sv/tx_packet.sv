@@ -10,11 +10,11 @@ class tx_packet extends uvm_sequence_item;
 
     rand bit [6:0] atid;    // An ID that uniquely identifies the source of the trace
 
-    bit atvalid;            // A transfer is valid during this cycle
-    bit afready;            // Flush signal
+    rand bit atvalid;            // A transfer is valid during this cycle
+    rand bit afready;            // Flush signal
 
-    bit syncreq;            // Synchronization request signal
-    bit atwakeup;           // Wake-up Signal
+    rand bit syncreq;            // Synchronization request signal
+    rand bit atwakeup;           // Wake-up Signal
 
     /*Factory Registration*/
     `uvm_object_utils_begin(tx_packet)
