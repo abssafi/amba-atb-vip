@@ -16,7 +16,6 @@ class tx_packet extends uvm_sequence_item;
     bit syncreq;            // Synchronization request signal
     bit atwakeup;           // Wake-up Signal
 
-
     /*Factory Registration*/
     `uvm_object_utils_begin(tx_packet)
         `uvm_field_int(atclken, UVM_ALL_ON)

@@ -10,8 +10,19 @@ class tx_driver extends uvm_driver #(tx_packet);
         `uvm_info(get_type_name(), "BUILD PHASE RUNNING...", UVM_LOW);
     endfunction: build_phase
 
-    // task run_phase (uvm_phase);
+    task run_phase (uvm_phase);
 
-    // endtask: run_phase
+        forever begin
+            seq_item_port.get_next_item(req);
+            `uvm_info(get_type_name(), $sformatf("Packet SENT: \n%s", req.sprint()), UVM_LOW)
+            seq_item_port.item_done(req);
+        end
+
+    endtask: run_phase
+
+    function void connect_phase (uvm_phase phase);
+        if (!uvm_config_db#(virtual tx_if)::get(this, "", "vif", vif))
+        `uvm_fatal("NOVIF", "VIF in DRIVER is NOT SET")
+    endfunction: connect_phase
 
 endclass: tx_driver

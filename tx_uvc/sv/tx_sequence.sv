@@ -9,5 +9,5 @@ class tx_sequence extends uvm_sequence #(tx_packet);
     //     super.build_phase(phase);
     //     `uvm_info(get_type_name(), "Executing simple sequence", UVM_LOW)
     // endfunction
-endclass
 
+endclass
