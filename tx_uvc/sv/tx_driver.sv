@@ -14,7 +14,7 @@ class tx_driver extends uvm_driver #(tx_packet);
 
         forever begin
             seq_item_port.get_next_item(req);
-            `uvm_info(get_type_name(), $sformatf("Packet SENT: \n%s", req.sprint()), UVM_LOW)
+            `uvm_info(get_type_name(), $sformatf("Packet RECEIVED: \n%s", req.sprint()), UVM_LOW)
             seq_item_port.item_done(req);
         end
 
