@@ -8,4 +8,5 @@ class tx_sequencer extends uvm_sequencer #(tx_packet);
     function void start_of_simulation_phase(uvm_phase phase);
         `uvm_info(get_type_name(), "Running Tx Simulation ...", UVM_LOW);
     endfunction: start_of_simulation_phase
+    
 endclass
