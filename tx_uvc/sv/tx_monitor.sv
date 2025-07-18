@@ -1,7 +1,7 @@
 class tx_monitor extends uvm_monitor;
     `uvm_component_utils(tx_monitor)
 
-    virtual interface tx_if vif;
+    virtual tx_if vif;
     int mon_pkt_col;
     tx_packet pkt;
 
@@ -41,7 +41,7 @@ class tx_monitor extends uvm_monitor;
     
     endtask : run_phase
 
-    task collect_packet(input wb_packet pkt);
+    task collect_packet(input tx_packet pkt);
         
         pkt.atclken = vif.atclken;
         pkt.atdata = vif.atdata;
