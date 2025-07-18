@@ -1,0 +1,7 @@
+*.log
+qaLog.txt
+*.simvision
+*.key
+*.history
+cov_work/
+xcelium.d/
