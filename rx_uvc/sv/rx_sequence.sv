@@ -41,7 +41,7 @@ class rx_sequence extends uvm_sequence#(rx_packet);
 endclass: rx_sequence
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////                         First Sequence                                   //////////////////////////
+//////////////////////////                         First Sequence                                     //////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class rx_test extends rx_sequence;
@@ -52,17 +52,21 @@ class rx_test extends rx_sequence;
     endfunction
 
     task body();
-        repeat(5) begin
-        `uvm_create(req)
-        req.atready = 1;
-        `uvm_send(req)
-        end
 
-        #5;
+        // repeat(3) begin
+        // `uvm_create(req)
+        // req.atready = 0;
+        // `uvm_send(req)
+        // end
 
-        `uvm_create(req)
-        req.atready = 0;
-        `uvm_send(req)
+        // repeat(3) begin
+        // `uvm_create(req)
+        // req.atready = 1;
+        // `uvm_send(req)
+        // end
+
+    repeat(1711)
+        `uvm_do(req)
 
     endtask
 

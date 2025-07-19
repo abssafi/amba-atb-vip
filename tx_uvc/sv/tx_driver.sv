@@ -7,6 +7,9 @@ class tx_driver extends uvm_driver #(tx_packet);
 
     virtual atb_if vif;
     int count;
+    int sent_packets;
+    tx_packet tx_q[$];
+    tx_packet send_p;
 
     function void build_phase(uvm_phase phase);
         super.build_phase (phase);
@@ -26,7 +29,17 @@ class tx_driver extends uvm_driver #(tx_packet);
         forever begin
             @(negedge vif.atclk);
             seq_item_port.get_next_item(req);
-            send_to_dut(req);
+            
+            tx_q.push_back(req);
+            if (req.atvalid)
+                vif.atvalid = req.atvalid;
+
+            if (vif.atready) begin
+                send_p = tx_q.pop_front();
+                send_to_dut(send_p);
+                sent_packets++;
+            end
+
             count++;
             seq_item_port.item_done(req);
         end
@@ -35,6 +48,8 @@ class tx_driver extends uvm_driver #(tx_packet);
 
     function void report_phase (uvm_phase phase);
         `uvm_info(get_type_name(), $sformatf("TX DRIVER Packets SENT: %0d ", count), UVM_LOW);
+        `uvm_info(get_type_name(), $sformatf("TX DRIVER Packets SENT from QUEUE: %0d ", sent_packets), UVM_LOW);
+        `uvm_info(get_type_name(), $sformatf("Packets Remaining in Queue: %0d ", tx_q.size()), UVM_LOW);
     endfunction: report_phase
 
     function void connect_phase (uvm_phase phase);
@@ -51,7 +66,7 @@ class tx_driver extends uvm_driver #(tx_packet);
         vif.atdata = req.atdata;
         vif.atbytes = req.atbytes;
         vif.atid = req.atid;
-        vif.atvalid = req.atvalid;
+        //vif.atvalid = req.atvalid;
         vif.afready = req.afready;
         //vif.syncreq = req.syncreq;
         vif.atwakeup = req.atwakeup;

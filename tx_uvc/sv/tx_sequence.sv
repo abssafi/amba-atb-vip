@@ -52,8 +52,43 @@ class tx_test extends tx_sequence;
     endfunction
 
     task body();
-    repeat(15)
-        `uvm_do_with(req, {req.atvalid == 1;})
+
+    // repeat(15)
+    //     `uvm_do_with(req, {req.atvalid == 1;})
+
+    // `uvm_create(req)
+    // req.atdata = 32'h11110000;
+    // req.atvalid = 1;
+    // `uvm_send(req)
+
+    // `uvm_create(req)
+    // req.atdata = 32'h22220000;
+    // req.atvalid = 1;
+    // `uvm_send(req)
+
+    // `uvm_create(req)
+    // req.atdata = 32'h33330000;
+    // req.atvalid = 1;
+    // `uvm_send(req)
+
+    // `uvm_create(req)
+    // req.atdata = 32'h44440000;
+    // req.atvalid = 1;
+    // `uvm_send(req)
+
+    // `uvm_create(req)
+    // req.atdata = 32'h55550000;
+    // req.atvalid = 1;
+    // `uvm_send(req)
+
+    // `uvm_create(req)
+    // req.atdata = 32'h66660000;
+    // req.atvalid = 1;
+    // `uvm_send(req)
+
+    repeat(1711)
+        `uvm_do(req)
+
     endtask
 
 endclass   

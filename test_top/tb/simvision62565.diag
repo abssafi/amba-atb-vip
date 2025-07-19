@@ -1,0 +1,83 @@
+*** Message Type: info ***
+When: Sat Jul 19 07:53:17 PM PKT 2025
+SimVision started.
+Version: TOOL:  simvision(64)   23.09-s006
+User: cc
+Host: ncdc-0025
+Platform: Linux/x86_64/4.18.0-372.32.1.el8_6.x86_64
+Started: Sat Jul 19 07:53:17 PM PKT 2025
+Command: /home/cc/mnt/XCELIUM2309/tools.lnx86/simvision/bin/64bit/simvision.exe -connect dc:ncdc-0025:34209 -64BIT -nocopyright
+Work Directory: /home/cc/Documents/muhammad_qasim/uvm/project/amba-atb-vip/test_top/tb
+ 
+*** Message Type: info ***
+When: Sat Jul 19 07:53:18 PM PKT 2025
+Create browser window: "Design Browser 1"
+ 
+*** Message Type: info ***
+When: Sat Jul 19 07:53:22 PM PKT 2025
+Create console window: "Console"
+ 
+*** Message Type: info ***
+When: Sat Jul 19 07:53:25 PM PKT 2025
+Connect to Simulator
+      Design: worklib.atb_top:sv
+   Languages: verilog assertion
+   Simulator: XM-Sim
+     Version: TOOL:       xmsim(64)       23.09-s006
+        User: cc
+        Host: ncdc-0025
+Time Started: Sat Jul 19 07:53:17 PM PKT 2025
+  Process ID: 62550
+   Directory: /home/cc/Documents/muhammad_qasim/uvm/project/amba-atb-vip/test_top/tb
+     Command: xrun -access +rwc -uvm -f file.f -gui
+
+ 
+*** Message Type: info ***
+When: Sat Jul 19 07:53:25 PM PKT 2025
+Create utility window: "Properties"
+ 
+*** Message Type: info ***
+When: Sat Jul 19 07:53:29 PM PKT 2025
+Create waveform window: "Waveform 1"
+ 
+*** Message Type: error ***
+When: Sat Jul 19 07:57:46 PM PKT 2025
+property "-transattr" is not applicable to handle "@public@fb"
+    while executing
+"util::expandStreamByAttr $dacH [util::expandAttrConvert name $flavor]"
+    ("***:(?i)Attr:.*" arm line 4)
+    invoked from within
+"# Compiled -- no source code available
+error "called a copy of a compiled script""
+    (procedure "util::getExpandChildren" line 1)
+    invoked from within
+"util::getExpandChildren $signalH $flavor"
+    ("default" arm line 69)
+    invoked from within
+"switch -- $type {
+  group - overlay {
+          set group [$_tree get $id -group]
+      foreach obj [$group get -objects] {
+                switch -- [util::entity type $o..."
+    (object "::.waveWindow0.work.user.waveset" method "::WaveSet::_populate" body line 2)
+    invoked from within
+"_populate internal $id"
+    ("default" arm line 27)
+    invoked from within
+"switch -- [type $id] {
+         overlay - group {
+          # do nothing
+       }
+      transaction {
+            # TODO_ASSOCARRAY - probably nothing for assocarray..."
+    (object "::.waveWindow0.work.user.waveset" method "::WaveSet::_dbRecallCallback" body line 13)
+    invoked from within
+"::.waveWindow0.work.user.waveset _dbRecallCallback event !recall"
+    (in namespace inscope "::WaveSet" script line 1)
+    invoked from within
+"namespace inscope ::WaveSet {::.waveWindow0.work.user.waveset _dbRecallCallback} event !recall"
+ 
+*** Message Type: info ***
+When: Sat Jul 19 07:58:14 PM PKT 2025
+SimVision Exit.
+ 
