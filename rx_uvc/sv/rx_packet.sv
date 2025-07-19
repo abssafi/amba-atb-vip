@@ -3,6 +3,8 @@ class rx_packet extends uvm_sequence_item;
     /*Global Signals*/
     bit atclken;
 
+    bit [31:0] atdata;
+
     rand bit atready;     // The Receiver is ready to accept data
     rand bit afvalid;     // The flush signal to indicate that all buffers must be flushed because trace capture is about to stop
     rand bit syncreq;     // Synchronization request signal
@@ -11,6 +13,7 @@ class rx_packet extends uvm_sequence_item;
     `uvm_object_utils_begin(rx_packet)
         `uvm_field_int(atready, UVM_ALL_ON)
         `uvm_field_int(afvalid, UVM_ALL_ON)
+        `uvm_field_int(atdata, UVM_ALL_ON)
         `uvm_field_int(syncreq, UVM_ALL_ON)
     `uvm_object_utils_end
 
