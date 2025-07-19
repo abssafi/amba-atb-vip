@@ -42,6 +42,7 @@ class tx_monitor extends uvm_monitor;
 
                 /*Port to scoreboard*/
                 tx_collected_port.write(pkt);
+
                 mon_pkt_col++;
             end
                     

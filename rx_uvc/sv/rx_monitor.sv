@@ -49,7 +49,7 @@ class rx_monitor extends uvm_monitor;
             
             /*Port to scoreboard*/
             rx_collected_port.write(pkt);
-
+            
             mon_pkt_col++;
             end
         end
