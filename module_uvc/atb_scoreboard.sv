@@ -35,8 +35,10 @@ class atb_scoreboard extends uvm_scoreboard;
     function void write_receiver(input rx_packet r_pkt);
         rx_packet r_pkt_copy;
         $cast(r_pkt_copy, r_pkt.clone());
-        rx_q.push_back(r_pkt_copy);
-        `uvm_info(get_type_name, $sformatf("Added to RX Queue - Data: %0h", r_pkt_copy.atdata), UVM_LOW)
+        rx_q.push_back(r_pkt);
+        `uvm_info(get_type_name, $sformatf("Added to RX - Data: %0h", r_pkt.atdata), UVM_LOW)
+        `uvm_info(get_type_name(), $sformatf("Added to RX Queue - Data: %0h", rx_q[rx_q.size()-1].atdata), UVM_LOW)
+
         compare();
     endfunction
 
