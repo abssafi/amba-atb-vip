@@ -31,7 +31,7 @@ class tx_driver extends uvm_driver #(tx_packet);
     endtask: run_phase
 
     function void report_phase (uvm_phase phase);
-        `uvm_info(get_type_name(), $sformatf("TX DRIVER Sent Packets: %0d ", count), UVM_LOW);
+        `uvm_info(get_type_name(), $sformatf("TX DRIVER Packets SENT: %0d ", count), UVM_LOW);
     endfunction: report_phase
 
     function void connect_phase (uvm_phase phase);
