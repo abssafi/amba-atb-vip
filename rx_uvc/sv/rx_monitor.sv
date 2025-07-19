@@ -20,6 +20,7 @@ class rx_monitor extends uvm_monitor;
     endfunction: connect_phase
 
     task run_phase(uvm_phase phase);
+        
         if(vif == null)
             `uvm_fatal(get_type_name(), "RX INTERFACE not accessible!");
     
@@ -31,12 +32,15 @@ class rx_monitor extends uvm_monitor;
         `uvm_info(get_type_name(), "Reset Deasserted!", UVM_LOW);
 
         pkt = rx_packet::type_id::create("pkt", this);
-        forever begin           
-            @(posedge vif.atclk) void'(this.begin_tr(pkt, "RX_MONITOR PACKET"));;
+        
+        forever begin   
+            void'(this.begin_tr(pkt, "RX_MONITOR PACKET"));        
+            @(posedge vif.atclk) 
 
             if(vif.atready && vif.atvalid) begin
                 `uvm_info(get_type_name(), "Transaction Detected in Monitor", UVM_HIGH)
                 collect_packet(pkt);
+                
                 `uvm_info(get_type_name(), $sformatf("atdata : %0h | atbytes : %0h | atid : %0h", vif.atdata, vif.atbytes, vif.atid), UVM_LOW)
             void'(this.end_tr(pkt));
             mon_pkt_col++;
