@@ -56,14 +56,10 @@ class rx_test extends rx_sequence;
         req.atready = 0;
         `uvm_send(req)
 
-        #1;
-
         `uvm_create(req)
         req.atready = 1;
         `uvm_send(req)
         
-        #5;
-
         `uvm_create(req)
         req.atready = 1;
         `uvm_send(req)

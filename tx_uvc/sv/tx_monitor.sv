@@ -31,13 +31,13 @@ class tx_monitor extends uvm_monitor;
         `uvm_info(get_type_name(), "Reset Deasserted!", UVM_LOW);
 
         forever begin           
-            @(posedge vif.atclk); 
-
-            `uvm_info(get_type_name(), "Transaction Detected in Monitor", UVM_HIGH)
-
-            pkt = tx_packet::type_id::create("pkt", this);
-            collect_packet(pkt);
-            mon_pkt_col++;
+            @(posedge vif.atclk);
+            if (vif.atvalid)   begin
+                `uvm_info(get_type_name(), "Transaction Detected in Monitor", UVM_HIGH)
+                pkt = tx_packet::type_id::create("pkt", this);
+                collect_packet(pkt);
+                mon_pkt_col++;
+            end
                     
         end
     endtask: run_phase

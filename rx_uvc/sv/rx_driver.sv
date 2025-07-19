@@ -21,7 +21,7 @@ class rx_driver extends uvm_driver #(rx_packet);
         wait(vif.atresetn == 0);
         `uvm_info(get_type_name(), "Reset Deasserted!", UVM_LOW);
         forever begin
-            @(posedge vif.atclk);
+            @(negedge vif.atclk);
             seq_item_port.get_next_item(req);
             send_to_dut(req);
             count++;
