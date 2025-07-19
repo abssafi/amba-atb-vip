@@ -20,6 +20,10 @@ class atb_scoreboard extends uvm_scoreboard;
     int matched = 0;
     int error = 0;
 
+////////////////////////////////////////////////////////////////////////
+//                        write_transmitter
+////////////////////////////////////////////////////////////////////////
+
     function void write_transmitter(input tx_packet t_pkt);
         tx_packet t_pkt_copy;
         $cast(t_pkt_copy, t_pkt.clone());
@@ -54,14 +58,13 @@ class atb_scoreboard extends uvm_scoreboard;
                 `uvm_info(get_type_name(),"Packet Not Matched", UVM_LOW)
                 error++;
             end
-
         end
     endfunction : compare
 
     function void report_phase(uvm_phase phase);
-        super.report_phase(phase);
-        
-        `uvm_info(get_type_name(), "===== SPI SCOREBOARD REPORT =====", UVM_LOW)
+        $display("===============================================================================================================================================");
+        $display("                                                      SCOREBOARD REPORT                                                                        ");
+        $display("===============================================================================================================================================");
         `uvm_info("", $sformatf("Total Packets Received : %0d", received), UVM_LOW)
         `uvm_info("", $sformatf("Total Packets Matched : %0d", matched), UVM_LOW)
         `uvm_info("", $sformatf("Total Packets Mismatched : %0d", error), UVM_LOW)
