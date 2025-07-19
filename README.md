@@ -18,3 +18,6 @@ A simple test is run at this time on top environment, and we are getting the exp
 
 challenge: error when used '@', error resolved when used 'if' condition. 
             only use @ for reset, enable, clk
+
+
+challenge: there was some conflict error / timing issue in scoreboard between tx transmitter and rx transmitter, write methods. so we added a delay before calling rx_monitor.  
