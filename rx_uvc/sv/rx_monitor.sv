@@ -5,8 +5,11 @@ class rx_monitor extends uvm_monitor;
     int mon_pkt_col;
     rx_packet pkt;
 
+    uvm_analysis_port #(rx_packet) rx_collected_port;
+
     function new (string name = "rx_monitor", uvm_component parent);
         super.new(name, parent);
+        rx_collected_port = new("rx_collected_port", this);
     endfunction:new
 
     function void build_phase (uvm_phase phase);
@@ -43,6 +46,10 @@ class rx_monitor extends uvm_monitor;
                 
                 `uvm_info(get_type_name(), $sformatf("atdata : %0h | atbytes : %0h | atid : %0h", vif.atdata, vif.atbytes, vif.atid), UVM_LOW)
             void'(this.end_tr(pkt));
+            
+            /*Port to scoreboard*/
+            rx_collected_port.write(pkt);
+
             mon_pkt_col++;
             end
         end
