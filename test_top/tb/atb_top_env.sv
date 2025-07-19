@@ -15,4 +15,9 @@ class atb_test_env extends uvm_env;
         `uvm_info(get_type_name, "BUILD PHASE RUNNING...", UVM_LOW)
     endfunction: build_phase
 
+    function void connect_phase (uvm_phase phase);
+        tx_uvc.agent.monitor.tx_collected_port.connect();
+        rx_uvc.agent.monitor.rx_collected_port.connect();
+    endfunction
+
 endclass: atb_test_env

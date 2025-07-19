@@ -5,8 +5,11 @@ class tx_monitor extends uvm_monitor;
     int mon_pkt_col;
     tx_packet pkt;
 
+    uvm_analysis_port #(tx_packet) tx_collected_port;
+
     function new (string name = "tx_monitor", uvm_component parent);
         super.new(name, parent);
+        tx_collected_port = new("tx_collected_port", this);
     endfunction:new
 
     function void build_phase (uvm_phase phase);
@@ -36,6 +39,9 @@ class tx_monitor extends uvm_monitor;
                 `uvm_info(get_type_name(), "Transaction Detected in Monitor", UVM_HIGH)
                 pkt = tx_packet::type_id::create("pkt", this);
                 collect_packet(pkt);
+
+                /*Port to scoreboard*/
+                tx_collected_port.write(pkt);
                 mon_pkt_col++;
             end
                     
