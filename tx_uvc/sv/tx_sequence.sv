@@ -60,13 +60,13 @@ class tx_test extends tx_sequence;
         `uvm_send(req)
 
         `uvm_create(req)
-            req.atdata = 32'h1234FFFF;
+            req.atdata = 32'h2222EEEE;
             req.atbytes = 2'b10;
             req.atvalid = 1;
         `uvm_send(req)
 
         `uvm_create(req)
-            req.atdata = 32'hABCDFFFF;
+            req.atdata = 32'hABCD1231;
             req.atbytes = 2'b11;
             req.atvalid = 1;
         `uvm_send(req)

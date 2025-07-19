@@ -21,7 +21,7 @@ class rx_monitor extends uvm_monitor;
 
     task run_phase(uvm_phase phase);
         if(vif == null)
-            `uvm_fatal(get_type_name(), "RX INTERFACE not accessible!")
+            `uvm_fatal(get_type_name(), "RX INTERFACE not accessible!");
     
         `uvm_info(get_type_name(), $sformatf("Executing Monitor Run Phase!"), UVM_HIGH)
         
@@ -32,17 +32,18 @@ class rx_monitor extends uvm_monitor;
 
         forever begin           
             @(posedge vif.atclk); 
-            @(vif.atready && vif.atvalid)
-            `uvm_info(get_type_name(), "Transaction Detected in Monitor", UVM_HIGH)
-            pkt = rx_packet::type_id::create("pkt", this);
-            //collect_packet(pkt);
-            `uvm_info(get_type_name(), $sformatf("atdata : %0h | atbytes : %0h | atid : %0h", vif.atdata, vif.atbytes, vif.atid), UVM_LOW)
+            if(vif.atready && vif.atvalid) begin
+                `uvm_info(get_type_name(), "Transaction Detected in Monitor", UVM_HIGH)
+                pkt = rx_packet::type_id::create("pkt", this);
+                //collect_packet(pkt);
+                `uvm_info(get_type_name(), $sformatf("atdata : %0h | atbytes : %0h | atid : %0h", vif.atdata, vif.atbytes, vif.atid), UVM_LOW)
             mon_pkt_col++;
+            end
         end
     endtask: run_phase
 
     function void report_phase(uvm_phase phase);
-        `uvm_info(get_type_name(), $sformatf("RX MONITOR Sent Packets: %0d ", mon_pkt_col), UVM_HIGH)
+        `uvm_info(get_type_name(), $sformatf("RX MONITOR received Packets: %0d ", mon_pkt_col), UVM_HIGH)
     endfunction: report_phase
 
 //--------------------------------------------------------------------------------------------------
