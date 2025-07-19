@@ -4,8 +4,10 @@ module atb_top;
     `include "uvm_macros.svh"
     import tx_pkg::*;
     import rx_pkg::*;
+    `include "atb_scoreboard.sv"
     `include "atb_top_env.sv"
     `include "atb_test.sv"
+
 
     bit atclk, atresetn;
 

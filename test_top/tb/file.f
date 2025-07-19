@@ -2,7 +2,9 @@
 
 -incdir ../../rx_uvc/sv
 -incdir ../../tx_uvc/sv
+-incdir ../../module_uvc
 -incdir ../../test_top
+
 
 ../../tx_uvc/sv/tx_pkg.sv
 ../../rx_uvc/sv/rx_pkg.sv

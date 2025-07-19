@@ -1,8 +1,8 @@
 class atb_scoreboard extends uvm_scoreboard;
     `uvm_component_utils(atb_scoreboard)
 
-    `uvm_analysis_imp_dec1(_transmitter)
-    `uvm_analysis_imp_dec1(_receiver)
+    `uvm_analysis_imp_decl(_transmitter)
+    `uvm_analysis_imp_decl(_receiver)
 
     uvm_analysis_imp_transmitter #(tx_packet, atb_scoreboard) tx;
     uvm_analysis_imp_receiver #(rx_packet, atb_scoreboard) rx;
@@ -20,13 +20,13 @@ class atb_scoreboard extends uvm_scoreboard;
     int matched = 0;
     int error = 0;
 
-    function void write_tx(tx_packet t_pkt);
+    function void write_transmitter(tx_packet t_pkt);
         tx_packet t_pkt_copy;
         $cast(t_pkt_copy, t_pkt.clone());
         tx_q.push_back(t_pkt_copy);
     endfunction
 
-    function void write_rx(rx_packet r_pkt);
+    function void write_receiver(rx_packet r_pkt);
         rx_packet r_pkt_copy;
         $cast(r_pkt_copy, r_pkt.clone());
         rx_q.push_back(r_pkt_copy);
