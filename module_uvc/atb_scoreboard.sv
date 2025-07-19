@@ -28,12 +28,15 @@ class atb_scoreboard extends uvm_scoreboard;
         tx_packet t_pkt_copy;
         $cast(t_pkt_copy, t_pkt.clone());
         tx_q.push_back(t_pkt_copy);
+        `uvm_info(get_type_name, $sformatf("Added to TX Queue - Data: %0h", t_pkt_copy.atdata), UVM_LOW)
+        //compare();
     endfunction
 
     function void write_receiver(input rx_packet r_pkt);
         rx_packet r_pkt_copy;
         $cast(r_pkt_copy, r_pkt.clone());
         rx_q.push_back(r_pkt_copy);
+        `uvm_info(get_type_name, $sformatf("Added to RX Queue - Data: %0h", r_pkt_copy.atdata), UVM_LOW)
         compare();
     endfunction
 
@@ -44,9 +47,6 @@ class atb_scoreboard extends uvm_scoreboard;
         if(tx_q.size() > 0 && rx_q.size() > 0) begin
             t_pkt = tx_q.pop_front();
             r_pkt = rx_q.pop_front();
-
-            `uvm_info(get_type_name(),$sformatf("t_pkt= \n%s",t_pkt.sprint()), UVM_LOW)
-            `uvm_info(get_type_name(),$sformatf("r_pkt= \n%s",r_pkt.sprint()), UVM_LOW)
             received++;
             if(t_pkt.atdata == r_pkt.atdata)
             begin

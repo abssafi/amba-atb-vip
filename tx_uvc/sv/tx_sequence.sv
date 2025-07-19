@@ -52,25 +52,8 @@ class tx_test extends tx_sequence;
     endfunction
 
     task body();
-
-        `uvm_create(req)
-            req.atdata = 32'h1234FFFF;
-            req.atbytes = 2'b10;
-            req.atvalid = 0;
-        `uvm_send(req)
-
-        `uvm_create(req)
-            req.atdata = 32'h2222EEEE;
-            req.atbytes = 2'b10;
-            req.atvalid = 1;
-        `uvm_send(req)
-
-        `uvm_create(req)
-            req.atdata = 32'hABCD1231;
-            req.atbytes = 2'b11;
-            req.atvalid = 1;
-        `uvm_send(req)
-
+    repeat(15)
+        `uvm_do_with(req, {req.atvalid == 1;})
     endtask
 
 endclass   

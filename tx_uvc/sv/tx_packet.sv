@@ -15,10 +15,10 @@ class tx_packet extends uvm_sequence_item;
     `uvm_object_utils_begin(tx_packet)
         `uvm_field_int(atdata, UVM_ALL_ON)
         `uvm_field_int(atbytes, UVM_ALL_ON)
-        `uvm_field_int(atid, UVM_ALL_ON)
+        //`uvm_field_int(atid, UVM_ALL_ON)
         `uvm_field_int(atvalid, UVM_ALL_ON)
-        `uvm_field_int(afready, UVM_ALL_ON)
-        `uvm_field_int(atwakeup, UVM_ALL_ON)
+        //`uvm_field_int(afready, UVM_ALL_ON)
+        //`uvm_field_int(atwakeup, UVM_ALL_ON)
     `uvm_object_utils_end
 
     /*Constructor*/

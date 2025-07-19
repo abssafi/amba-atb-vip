@@ -52,18 +52,18 @@ class rx_test extends rx_sequence;
     endfunction
 
     task body();
+        repeat(5) begin
+        `uvm_create(req)
+        req.atready = 1;
+        `uvm_send(req)
+        end
+
+        #5;
+
         `uvm_create(req)
         req.atready = 0;
         `uvm_send(req)
 
-        `uvm_create(req)
-        req.atready = 1;
-        `uvm_send(req)
-        
-        `uvm_create(req)
-        req.atready = 1;
-        `uvm_send(req)
-
     endtask
 
-endclass   
+endclass
