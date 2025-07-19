@@ -47,7 +47,7 @@ class rx_monitor extends uvm_monitor;
                 `uvm_info(get_type_name(), $sformatf("atdata : %0h | atbytes : %0h | atid : %0h", vif.atdata, vif.atbytes, vif.atid), UVM_LOW)
             void'(this.end_tr(pkt));
             
-            /*Port to scoreboard*/
+            #1;
             rx_collected_port.write(pkt);
             
             mon_pkt_col++;
