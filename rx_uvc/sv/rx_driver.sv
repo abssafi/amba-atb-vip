@@ -18,7 +18,10 @@ class rx_driver extends uvm_driver #(rx_packet);
         if (vif == null)
             `uvm_fatal(get_type_name(), "Driver VIF is NULL in run_phase")
 
-        wait(vif.atresetn == 0);
+        if (vif.atresetn==0)
+            reset_signals();
+
+        wait(vif.atresetn == 1);
         `uvm_info(get_type_name(), "Reset Deasserted!", UVM_LOW);
         forever begin
             @(negedge vif.atclk);
@@ -50,6 +53,12 @@ class rx_driver extends uvm_driver #(rx_packet);
         vif.syncreq = req.atready;
         `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet SENT: \n%s", count+1, req.sprint()), UVM_LOW)   
     endtask: send_to_dut
+
+    task reset_signals();
+        vif.atready = 0;
+        vif.afvalid = 0;
+        vif.syncreq = 0;
+    endtask : reset_signals
 
 
 endclass: rx_driver

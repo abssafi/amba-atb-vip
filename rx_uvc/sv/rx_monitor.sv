@@ -27,7 +27,7 @@ class rx_monitor extends uvm_monitor;
         
         @(posedge vif.atclk);
         
-        wait(vif.atresetn == 0);
+        wait(vif.atresetn == 1);
         `uvm_info(get_type_name(), "Reset Deasserted!", UVM_LOW);
 
         forever begin           
