@@ -29,13 +29,12 @@ class atb_scoreboard extends uvm_scoreboard;
         $cast(t_pkt_copy, t_pkt.clone());
         tx_q.push_back(t_pkt_copy);
         `uvm_info(get_type_name, $sformatf("Added to TX Queue - Data: %0h", t_pkt_copy.atdata), UVM_LOW)
-        compare();
+        //compare();
     endfunction
 
 ////////////////////////////////////////////////////////////////////////
 //                        write_receiver
 ////////////////////////////////////////////////////////////////////////
-
 
     function void write_receiver(input rx_packet r_pkt);
         //rx_packet r_pkt_copy;
@@ -57,16 +56,16 @@ class atb_scoreboard extends uvm_scoreboard;
             t_pkt = tx_q.pop_front();
             r_pkt = rx_q.pop_front();
             received++;
-            if(t_pkt.atdata == r_pkt.atdata)
-            begin
-                `uvm_info(get_type_name(),$sformatf("Packet Matched. TX_Data = %0h| RX_DATA = %0h",t_pkt.atdata, r_pkt.atdata), UVM_LOW)
-                matched++;
-            end
-            else
-            begin
-                `uvm_info(get_type_name(),$sformatf("Packet Not Matched. TX_Data = %0h| RX_DATA = %0h",t_pkt.atdata, r_pkt.atdata), UVM_LOW)
-                error++;
-            end
+
+        if(t_pkt.atdata == r_pkt.atdata) begin
+            `uvm_info(get_type_name(),$sformatf("Packet Matched. TX_Data = %0h| RX_DATA = %0h",t_pkt.atdata, r_pkt.atdata), UVM_LOW)
+            matched++;
+        end
+
+        else begin
+            `uvm_info(get_type_name(),$sformatf("Packet Not Matched. TX_Data = %0h| RX_DATA = %0h",t_pkt.atdata, r_pkt.atdata), UVM_LOW)
+            error++;
+        end
         end
     endfunction : compare
 
