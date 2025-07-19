@@ -43,7 +43,7 @@ class tx_monitor extends uvm_monitor;
     endtask: run_phase
 
     function void report_phase(uvm_phase phase);
-        `uvm_info(get_type_name(), $sformatf("TX MONITOR Sent Packets: %0d ", mon_pkt_col), UVM_HIGH)
+        `uvm_info(get_type_name(), $sformatf("TX MONITOR Received Packets: %0d ", mon_pkt_col), UVM_HIGH)
     endfunction: report_phase
 
 //------------------------------------------------------

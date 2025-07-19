@@ -51,13 +51,9 @@ class rx_monitor extends uvm_monitor;
 //--------------------------------------------------------------------------------------------------
 
     task collect_packet(input rx_packet pkt);
-        pkt.atclken = vif.atclken;
-        pkt.atdata = vif.atdata;
-        pkt.atbytes = vif.atbytes;
-        pkt.atid = vif.atid;
-        pkt.atvalid  = vif.atvalid;
-        pkt.afready = vif.afready;
-        pkt.atwakeup = vif.atwakeup;
+        pkt.atready = vif.atready;
+        pkt.afvalid = vif.afvalid;
+        pkt.syncreq = vif.syncreq;
         `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet is \n%s", mon_pkt_col+1, pkt.sprint()), UVM_HIGH)  
     endtask : collect_packet
 
