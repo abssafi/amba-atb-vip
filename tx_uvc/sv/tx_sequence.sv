@@ -58,28 +58,7 @@ class tx_test extends tx_sequence;
             assert (ok) else `uvm_fatal("TX_DRIVER", "RANDOMIZATION FAILED");
         finish_item(req);
     end
-
-    // repeat (50) begin
-    //         `uvm_do_with(req, {req.atvalid == 0;})
-    // end
-
-    // repeat (50) begin
-    //         `uvm_do_with(req, {req.atvalid == 0;})
-    // end
-
-    // repeat (50) begin
-    //         `uvm_do_with(req, {req.atvalid == 1;})
-    // end
-
-    // repeat (50) begin
-    //         `uvm_do_with(req, {req.atvalid == 1;})
-    // end
-
-    // #10;
-    // repeat (100) begin
-    //         `uvm_do(req)
-    // end
-
-    endtask
+    
+endtask
 
 endclass   
