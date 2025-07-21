@@ -16,6 +16,7 @@ class tx_sequence extends uvm_sequence#(tx_packet);
             phase.raise_objection(this, get_type_name());
             `uvm_info(get_type_name(), "OBJECTION RAISED", UVM_MEDIUM)
         end
+
     endtask : pre_body
 
     task post_body();
@@ -31,6 +32,8 @@ class tx_sequence extends uvm_sequence#(tx_packet);
         end
     endtask : post_body
 
+    
+
 endclass: tx_sequence
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,48 +42,23 @@ endclass: tx_sequence
 
 class tx_test extends tx_sequence;
      `uvm_object_utils(tx_test)
-
+    
     function new (string name = "tx_test");
         super.new(name);
     endfunction
 
     task body();
+    bit ok;
+    set_response_queue_depth(-1);
 
-    // repeat(15)
-    //     `uvm_do_with(req, {req.atvalid == 1;})
+    repeat(1711) begin
+        `uvm_create(req)
+        start_item(req);
+        ok = req.randomize();
+            assert (ok) else `uvm_fatal("TX_DRIVER", "RANDOMIZATION FAILED");
+        finish_item(req);
 
-    // `uvm_create(req)
-    // req.atdata = 32'h11110000;
-    // req.atvalid = 1;
-    // `uvm_send(req)
-
-    // `uvm_create(req)
-    // req.atdata = 32'h22220000;
-    // req.atvalid = 1;
-    // `uvm_send(req)
-
-    // `uvm_create(req)
-    // req.atdata = 32'h33330000;
-    // req.atvalid = 1;
-    // `uvm_send(req)
-
-    // `uvm_create(req)
-    // req.atdata = 32'h44440000;
-    // req.atvalid = 1;
-    // `uvm_send(req)
-
-    // `uvm_create(req)
-    // req.atdata = 32'h55550000;
-    // req.atvalid = 1;
-    // `uvm_send(req)
-
-    // `uvm_create(req)
-    // req.atdata = 32'h66660000;
-    // req.atvalid = 1;
-    // `uvm_send(req)
-
-    repeat(1711)
-        `uvm_do(req)
+    end
 
     endtask
 
