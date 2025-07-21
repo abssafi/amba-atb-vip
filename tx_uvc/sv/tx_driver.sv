@@ -25,8 +25,11 @@ class tx_driver extends uvm_driver #(tx_packet);
             reset_signals();
 
         wait(vif.atresetn == 1);
-        `uvm_info(get_type_name(), "Reset Deasserted!", UVM_LOW);
+            `uvm_info(get_type_name(), "Reset Deactivated!", UVM_LOW);
+
         forever begin
+            if (vif.atresetn == 0)
+                reset_signals();
             @(negedge vif.atclk);
             seq_item_port.get_next_item(req);
             

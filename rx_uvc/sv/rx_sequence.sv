@@ -18,13 +18,6 @@ class rx_sequence extends uvm_sequence#(rx_packet);
         end
     endtask : pre_body
 
-    task body();
-        repeat(5) begin
-        `uvm_do(req)
-        end
-    endtask
-
-
     task post_body();
         uvm_phase phase;
         `ifdef UVM_VERSION_1_2
@@ -65,7 +58,7 @@ class rx_test extends rx_sequence;
         // `uvm_send(req)
         // end
 
-    repeat(1711)
+    repeat(17)
         `uvm_do(req)
 
     endtask

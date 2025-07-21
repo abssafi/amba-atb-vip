@@ -24,6 +24,7 @@ module atb_top;
         atclk = 0;
         atresetn = 0;
         #10 atresetn = 1;
+        #100 atresetn = 0;
 
     end
 
