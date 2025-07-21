@@ -56,9 +56,10 @@ class tx_driver extends uvm_driver #(tx_packet);
                 send_p = tx_q.pop_front();
                 send_to_dut(send_p);
                 sent_packets++;
+                count++;
             end
 
-            count++;
+            
             seq_item_port.item_done(req);
         end
 

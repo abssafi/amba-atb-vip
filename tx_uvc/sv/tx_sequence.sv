@@ -51,7 +51,7 @@ class tx_test extends tx_sequence;
     bit ok;
     set_response_queue_depth(-1);
 
-    // repeat(8) begin
+    // repeat(10) begin
     //     `uvm_create(req)
     //     start_item(req);
     //     ok = req.randomize();
@@ -59,8 +59,25 @@ class tx_test extends tx_sequence;
     //     finish_item(req);
     // end
 
-    repeat (10071) begin
+    repeat (50) begin
+            `uvm_do_with(req, {req.atvalid == 0;})
+    end
+
+    repeat (50) begin
+            `uvm_do_with(req, {req.atvalid == 0;})
+    end
+
+    repeat (50) begin
             `uvm_do_with(req, {req.atvalid == 1;})
+    end
+
+    repeat (50) begin
+            `uvm_do_with(req, {req.atvalid == 1;})
+    end
+
+    #10;
+    repeat (100) begin
+            `uvm_do(req)
     end
 
     endtask
