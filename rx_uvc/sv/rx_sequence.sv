@@ -58,7 +58,7 @@ class rx_test extends rx_sequence;
         // `uvm_send(req)
         // end
 
-    repeat(17)
+    repeat(1711)
         `uvm_do(req)
 
     endtask

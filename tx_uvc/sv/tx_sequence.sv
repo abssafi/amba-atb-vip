@@ -79,7 +79,7 @@ class tx_test extends tx_sequence;
     // req.atvalid = 1;
     // `uvm_send(req)
 
-    repeat(17)
+    repeat(1711)
         `uvm_do(req)
 
     endtask
