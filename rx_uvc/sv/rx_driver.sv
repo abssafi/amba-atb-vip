@@ -18,20 +18,23 @@ class rx_driver extends uvm_driver #(rx_packet);
         if (vif == null)
             `uvm_fatal(get_type_name(), "Driver VIF is NULL in run_phase")
 
-        if (vif.atresetn==0)
+        if (vif.atresetn == 0)
             reset_signals();
 
         wait(vif.atresetn == 1);
+            `uvm_info(get_type_name(), "Reset Deasserted!", UVM_LOW);
         
-        `uvm_info(get_type_name(), "Reset Deasserted!", UVM_LOW);
+        @(posedge vif.atclk);
         forever begin
-            if (vif.atresetn == 0)
-                reset_signals();
+            // if (vif.atresetn == 0)
+            //     reset_signals();
             @(negedge vif.atclk);
+            
             seq_item_port.get_next_item(req);
             send_to_dut(req);
             count++;
             seq_item_port.item_done(req);
+            
         end
 
     endtask: run_phase

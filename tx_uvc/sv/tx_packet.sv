@@ -4,7 +4,8 @@ class tx_packet extends uvm_sequence_item;
     bit atclken;
 
     /*Data Signals*/
-    rand bit [31:0] atdata; // Trace data
+    bit [7:0] trace_data;
+    bit [31:0] atdata; // Trace data
     rand bit [1:0] atbytes; // The number of bytes on ATDATA to be captured, minus 1.
     rand bit [6:0] atid;    // An ID that uniquely identifies the source of the trace
     rand bit atvalid;            // A transfer is valid during this cycle
@@ -15,6 +16,7 @@ class tx_packet extends uvm_sequence_item;
     `uvm_object_utils_begin(tx_packet)
         `uvm_field_int(atdata, UVM_ALL_ON)
         `uvm_field_int(atbytes, UVM_ALL_ON)
+        `uvm_field_int(trace_data, UVM_ALL_ON)
         //`uvm_field_int(atid, UVM_ALL_ON)
         `uvm_field_int(atvalid, UVM_ALL_ON)
         //`uvm_field_int(afready, UVM_ALL_ON)

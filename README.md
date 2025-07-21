@@ -24,3 +24,6 @@ challenge: there was some conflict error / timing issue in scoreboard between tx
 
 challeng: response fifo in sequence default depth is 8. so when we send 8 or more randomized sequence packets, it gave response fifo overflow error. 
 fix: using the set_response_queue_depth(value), which is a method declared in base uvm_sequence class. So calling the method and passing int value (setting depth of fifo), we changed the depth to 2000 (as per our packets numbers), error resolved. or setting -1 value which takes dynamic value according to our randomized packets. 
+
+challenge: trace data has to come byte by byte, so we first made a 32 bits atdata, and send byte by byte into it. so after 4 clock cycle we would have a complete word. but there was problem in race conditions.
+fix: so we used the blocking statement in tx_driver, as both were simulating on negedge, and tx_driver logic was dependent on atready, and rx_driver was also dependent on atvalid. so we just changed the operating edge of both. now one operating on rising edge and other operating on negedge. 
