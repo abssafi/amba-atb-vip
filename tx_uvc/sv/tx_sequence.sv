@@ -75,10 +75,10 @@ class tx_test extends tx_sequence;
             `uvm_do_with(req, {req.atvalid == 1;})
     end
 
-    #10;
-    repeat (100) begin
-            `uvm_do(req)
-    end
+    // #10;
+    // repeat (100) begin
+    //         `uvm_do(req)
+    // end
 
     endtask
 

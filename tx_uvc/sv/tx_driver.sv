@@ -52,7 +52,7 @@ class tx_driver extends uvm_driver #(tx_packet);
 
             tx_q.push_back(req);
             
-            if (vif.atready) begin
+            if (vif.atready && vif.atvalid) begin
                 send_p = tx_q.pop_front();
                 send_to_dut(send_p);
                 sent_packets++;

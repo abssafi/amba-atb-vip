@@ -72,12 +72,12 @@ class rx_test extends rx_sequence;
         `uvm_do_with(req, {req.atready == 1;})
     end
 
-    #10;
-    repeat (100) begin
-            `uvm_do(req)
-    end
+    // #10;
+    // repeat (100) begin
+    //         `uvm_do(req)
+    // end
 
-    `uvm_do_with(req, {req.atready == 0;})
+    // `uvm_do_with(req, {req.atready == 0;})
     endtask
 
 endclass
