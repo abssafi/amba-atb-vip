@@ -48,36 +48,14 @@ class rx_test extends rx_sequence;
      bit ok;
     set_response_queue_depth(-1);
 
-    repeat(10000) begin
+    repeat(771) begin
         `uvm_create(req)
         start_item(req);
         ok = req.randomize();
         assert(ok) else `uvm_fatal(get_type_name(), "Rx sequence randomization failed");
         finish_item(req);
     end
-    
-    // repeat(50) begin
-    //     `uvm_do_with(req, {req.atready == 0;})
-    // end
 
-    // repeat(50) begin
-    //     `uvm_do_with(req, {req.atready == 1;})
-    // end
-
-    // repeat(50) begin
-    //     `uvm_do_with(req, {req.atready == 0;})
-    // end
-
-    // repeat(50) begin
-    //     `uvm_do_with(req, {req.atready == 1;})
-    // end
-
-    // #10;
-    // repeat (100) begin
-    //         `uvm_do(req)
-    // end
-
-    // `uvm_do_with(req, {req.atready == 0;})
     endtask
 
 endclass

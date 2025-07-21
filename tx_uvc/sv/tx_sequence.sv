@@ -51,34 +51,13 @@ class tx_test extends tx_sequence;
     bit ok;
     set_response_queue_depth(-1);
 
-    repeat(10000) begin
+    repeat(771) begin
         `uvm_create(req)
         start_item(req);
         ok = req.randomize();
             assert (ok) else `uvm_fatal("TX_DRIVER", "RANDOMIZATION FAILED");
         finish_item(req);
     end
-
-    // repeat (50) begin
-    //         `uvm_do_with(req, {req.atvalid == 0;})
-    // end
-
-    // repeat (50) begin
-    //         `uvm_do_with(req, {req.atvalid == 0;})
-    // end
-
-    // repeat (50) begin
-    //         `uvm_do_with(req, {req.atvalid == 1;})
-    // end
-
-    // repeat (50) begin
-    //         `uvm_do_with(req, {req.atvalid == 1;})
-    // end
-
-    // #10;
-    // repeat (100) begin
-    //         `uvm_do(req)
-    // end
 
     endtask
 

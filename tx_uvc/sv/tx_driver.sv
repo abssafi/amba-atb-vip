@@ -10,6 +10,7 @@ class tx_driver extends uvm_driver #(tx_packet);
     int sent_packets;
     tx_packet tx_q[$];
     tx_packet send_p;
+    int atvalid_n;
 
     function void build_phase(uvm_phase phase);
         super.build_phase (phase);
@@ -33,32 +34,33 @@ class tx_driver extends uvm_driver #(tx_packet);
             seq_item_port.get_next_item(req);
 
             vif.atvalid = req.atvalid;
-            
-            req.trace_data = 8'hab;
-            req.atdata[7:0] = req.trace_data;
-            `uvm_info(get_type_name(), $sformatf("1st cycle: The packet is %0h: ", req.atdata), UVM_LOW)
+            if (vif.atvalid) begin
+                req.trace_data = 8'hab;
+                req.atdata[7:0] = req.trace_data;
+                `uvm_info(get_type_name(), $sformatf("1st cycle: The packet is %0h: ", req.atdata), UVM_LOW)
 
-            req.trace_data = 8'h12;
-            req.atdata[15:8] = req.trace_data;
-            `uvm_info(get_type_name(), $sformatf("2nd cycle: The packet is %0h: ", req.atdata), UVM_LOW)
-            
-            req.trace_data = 8'h34;
-            req.atdata[23:16] = req.trace_data;
-            `uvm_info(get_type_name(), $sformatf("3rd cycle: The packet is %0h: ", req.atdata), UVM_LOW)
+                req.trace_data = 8'h12;
+                req.atdata[15:8] = req.trace_data;
+                `uvm_info(get_type_name(), $sformatf("2nd cycle: The packet is %0h: ", req.atdata), UVM_LOW)
+                
+                req.trace_data = 8'h34;
+                req.atdata[23:16] = req.trace_data;
+                `uvm_info(get_type_name(), $sformatf("3rd cycle: The packet is %0h: ", req.atdata), UVM_LOW)
 
-            req.trace_data = 8'h56;
-            req.atdata[31:24] = req.trace_data;
-            `uvm_info(get_type_name(), $sformatf("4th cycle: The packet is %0h: ", req.atdata), UVM_LOW)
-
-            tx_q.push_back(req);
-            
+                req.trace_data = 8'h56;
+                req.atdata[31:24] = req.trace_data;
+                `uvm_info(get_type_name(), $sformatf("4th cycle: The packet is %0h: ", req.atdata), UVM_LOW)
+                
+                tx_q.push_back(req);
+                atvalid_n++;
+            end
             if (vif.atready && vif.atvalid) begin
                 send_p = tx_q.pop_front();
                 send_to_dut(send_p);
                 sent_packets++;
-                count++;
             end
-
+            
+            count++;
             
             seq_item_port.item_done(req);
         end
@@ -67,7 +69,8 @@ class tx_driver extends uvm_driver #(tx_packet);
 
     function void report_phase (uvm_phase phase);
         `uvm_info(get_type_name(), $sformatf("TX DRIVER Packets SENT: %0d ", count), UVM_LOW);
-        `uvm_info(get_type_name(), $sformatf("TX DRIVER Packets SENT from QUEUE: %0d ", sent_packets), UVM_LOW);
+        `uvm_info(get_type_name(), $sformatf("TX DRIVER Packets SENT from QUEUE (atvalid && atready high): %0d ", sent_packets), UVM_LOW);
+        `uvm_info(get_type_name(), $sformatf("TX DRIVER Packets with atvalid high : %0d ", atvalid_n), UVM_LOW);
         `uvm_info(get_type_name(), $sformatf("Packets Remaining in Queue: %0d ", tx_q.size()), UVM_LOW);
     endfunction: report_phase
 
