@@ -54,8 +54,12 @@ class rx_test extends rx_sequence;
         ok = req.randomize();
         assert(ok) else `uvm_fatal(get_type_name(), "Rx sequence randomization failed");
         finish_item(req);
+<<<<<<< HEAD
     end
 
+=======
+    end 
+>>>>>>> a060c60ed9da4928b8d3240e21842d8e9692f3d8
     endtask
 
 endclass
