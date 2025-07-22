@@ -40,7 +40,7 @@ class rx_monitor extends uvm_monitor;
             void'(this.begin_tr(pkt, "RX_MONITOR PACKET"));        
             @(posedge vif.atclk) 
 
-            if(vif.atready && vif.atvalid && vif.atdata!=0) begin
+            if(vif.atready && vif.atvalid) begin
                 `uvm_info(get_type_name(), "Transaction Detected in Monitor", UVM_HIGH)
                 collect_packet(pkt);
                 

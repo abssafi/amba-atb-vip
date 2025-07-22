@@ -4,13 +4,13 @@ class tx_packet extends uvm_sequence_item;
     bit atclken;
 
     /*Data Signals*/
-    bit [7:0] trace_data;
+    rand bit [7:0] trace_data;
     bit [31:0] atdata;
     rand bit [1:0] atbytes;
     rand bit [6:0] atid;  
-    rand bit atvalid;          
-    rand bit afready;        
-    rand bit atwakeup;        
+    bit atvalid;          
+    bit afready;        
+    bit atwakeup;        
 
     `uvm_object_utils_begin(tx_packet)
         `uvm_field_int(atdata, UVM_ALL_ON)

@@ -51,7 +51,7 @@ class tx_test extends tx_sequence;
     bit ok;
     set_response_queue_depth(-1);
 
-    repeat(17) begin
+    repeat(16) begin
         `uvm_create(req)
         start_item(req);
         ok = req.randomize();

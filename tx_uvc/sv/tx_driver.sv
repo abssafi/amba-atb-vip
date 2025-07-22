@@ -11,6 +11,7 @@ class tx_driver extends uvm_driver #(tx_packet);
     int count;
     int sent_packets;
     tx_packet tx_q[$];
+    int trace_q[$:3];
     tx_packet send_p;
     int atvalid_n;
 
@@ -29,41 +30,40 @@ class tx_driver extends uvm_driver #(tx_packet);
 
         wait(vif.atresetn == 1);
             `uvm_info(get_type_name(), "Reset Deactivated!", UVM_LOW);
-
+          
         forever begin
             
-            @(negedge vif.atclk);
+            @(posedge vif.atclk);
             seq_item_port.get_next_item(req);
+                
+
+
+                //vif.atvalid = 0;
+            if(trace_q.size() == 4) begin
+                $display("CODE WORD");
+                req.atdata[7:0] = trace_q.pop_front();
+                req.atdata[15:8] = trace_q.pop_front();
+                req.atdata[23:16] = trace_q.pop_front();
+                req.atdata[31:24] = trace_q.pop_front();
+                //req.atvalid = 1;
+               vif.atvalid = 1;
+            end
+
+            trace_q.push_back(req.trace_data);
 
             tx_coverage_collect.write(req);
 
-            vif.atvalid = req.atvalid;
-            //if (vif.atvalid) begin
-            req.trace_data = 8'hab;
-            req.atdata[7:0] = req.trace_data;
-            `uvm_info(get_type_name(), $sformatf("1st cycle: The packet is %0h: ", req.atdata), UVM_LOW)
+            if(vif.atvalid) begin
+                tx_q.push_back(req);
+                atvalid_n++;
+            end
 
-            req.trace_data = 8'h12;
-            req.atdata[15:8] = req.trace_data;
-            `uvm_info(get_type_name(), $sformatf("2nd cycle: The packet is %0h: ", req.atdata), UVM_LOW)
-            
-            req.trace_data = 8'h34;
-            req.atdata[23:16] = req.trace_data;
-            `uvm_info(get_type_name(), $sformatf("3rd cycle: The packet is %0h: ", req.atdata), UVM_LOW)
-
-            req.trace_data = 8'h56;
-            req.atdata[31:24] = req.trace_data;
-            `uvm_info(get_type_name(), $sformatf("4th cycle: The packet is %0h: ", req.atdata), UVM_LOW)
-            
-            tx_q.push_back(req);
-            atvalid_n++;
-           // end
             if (vif.atready && vif.atvalid) begin
                 send_p = tx_q.pop_front();
                 send_to_dut(send_p);
                 sent_packets++;
             end
-            
+
             count++;
             
             seq_item_port.item_done(req);
