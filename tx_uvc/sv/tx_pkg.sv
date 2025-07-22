@@ -9,6 +9,7 @@ package tx_pkg;
     `include "tx_sequencer.sv"
     `include "tx_sequence.sv"
     `include "tx_driver.sv"
+    `include "tx_coverage.sv"
     `include "tx_agent.sv"
     `include "tx_env.sv"
 

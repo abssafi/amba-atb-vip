@@ -34,8 +34,6 @@ class rx_driver extends uvm_driver #(rx_packet);
             seq_item_port.get_next_item(req);
             send_to_dut(req);
             count++;
-                if (req.atready)
-                    atready_n++;
             seq_item_port.item_done(req);
             
         end
