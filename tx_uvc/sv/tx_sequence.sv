@@ -58,12 +58,7 @@ class tx_test extends tx_sequence;
             assert (ok) else `uvm_fatal("TX_DRIVER", "RANDOMIZATION FAILED");
         finish_item(req);
     end
-<<<<<<< HEAD
-
     endtask
-=======
-    
-endtask
->>>>>>> b7794b8b48d3a3157adc9ab2e4ed4a2b1f7c3284
+
 
 endclass   

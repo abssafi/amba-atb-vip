@@ -7,7 +7,7 @@ class rx_driver extends uvm_driver #(rx_packet);
 
     virtual atb_if vif;
     int count;
-    //int atready_n;
+    int atready_n;
 
     function void build_phase(uvm_phase phase);
         super.build_phase (phase);
