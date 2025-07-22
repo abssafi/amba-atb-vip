@@ -8,22 +8,22 @@ class tx_coverage extends uvm_subscriber#(tx_packet);
     int pkt_count;
     int coverage;
   
-    covergroup cg;
+    covergroup tcg;
         coverpoint pkt.trace_data;
         coverpoint pkt.atdata;
-        //coverpoint pkt.atbytes;
-        //coverpoint pkt.atid;
-        //coverpoint pkt.atvalid;
-    endgroup: cg
+        coverpoint pkt.atbytes;
+        coverpoint pkt.atid;
+        coverpoint pkt.atvalid;
+    endgroup: tcg
 
     function new (string name = "tx_coverage", uvm_component parent);
         super.new(name, parent);
-        cg = new();
+        tcg = new();
     endfunction: new
 
     function void write (tx_packet t);
         pkt = t;
-        cg.sample();
+        tcg.sample();
         pkt_count++;
         coverage = $get_coverage(); 
         `uvm_info("TX COVERAGE", $sformatf("%0d Packets Sampled, Coverage = %0d", pkt_count, coverage), UVM_LOW)

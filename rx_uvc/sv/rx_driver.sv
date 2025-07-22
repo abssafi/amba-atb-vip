@@ -1,6 +1,8 @@
 class rx_driver extends uvm_driver #(rx_packet);
     `uvm_component_utils(rx_driver)
 
+    uvm_analysis_port #(rx_packet) coverage_collect;
+
     function new (string name = "rx_driver", uvm_component parent);
         super.new(name, parent);
     endfunction:new 
@@ -12,6 +14,7 @@ class rx_driver extends uvm_driver #(rx_packet);
     function void build_phase(uvm_phase phase);
         super.build_phase (phase);
         `uvm_info(get_type_name(), "BUILD PHASE RUNNING...", UVM_LOW);
+        coverage_collect = new("coverage_collect", this);
     endfunction: build_phase
 
     task run_phase (uvm_phase phase);
@@ -32,6 +35,8 @@ class rx_driver extends uvm_driver #(rx_packet);
             @(negedge vif.atclk);
             
             seq_item_port.get_next_item(req);
+
+            coverage_collect.write(req);
             send_to_dut(req);
             count++;
             seq_item_port.item_done(req);

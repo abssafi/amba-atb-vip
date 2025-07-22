@@ -8,6 +8,7 @@ package rx_pkg;
     `include "rx_monitor.sv"
     `include "rx_sequencer.sv"
     `include "rx_sequence.sv"
+    `include "rx_coverage.sv"
     `include "rx_driver.sv"
     `include "rx_agent.sv"
     `include "rx_env.sv"
