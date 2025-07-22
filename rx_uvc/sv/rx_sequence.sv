@@ -49,12 +49,12 @@ class rx_test extends rx_sequence;
     set_response_queue_depth(-1);
 
     repeat(16) begin
-        `uvm_create(req)
-        start_item(req);
-        ok = req.randomize();
-        assert(ok) else `uvm_fatal(get_type_name(), "Rx sequence randomization failed");
-        finish_item(req);
-    //`uvm_do_with(req, {req.atready == 1;})
+        // `uvm_create(req)
+        // start_item(req);
+        // ok = req.randomize();
+        // assert(ok) else `uvm_fatal(get_type_name(), "Rx sequence randomization failed");
+        // finish_item(req);
+    `uvm_do_with(req, {req.atready == 1;})
 
     end
 

@@ -70,12 +70,13 @@ class atb_scoreboard extends uvm_scoreboard;
     endfunction : compare
 
     function void report_phase(uvm_phase phase);
-        $display("===============================================================================================================================================");
+        $display("=================================================================================================================================================================");
         $display("                                                      SCOREBOARD REPORT                                                                        ");
-        $display("===============================================================================================================================================");
-        `uvm_info("", $sformatf("Total Packets Received : %0d", received), UVM_LOW)
-        `uvm_info("", $sformatf("Total Packets Matched : %0d", matched), UVM_LOW)
-        `uvm_info("", $sformatf("Total Packets Mismatched : %0d", error), UVM_LOW)
+        $display("=================================================================================================================================================================");
+        `uvm_info(get_type_name(), $sformatf("Total Packets Received : %0d", received), UVM_LOW)
+        `uvm_info(get_type_name(), $sformatf("Total Packets Matched : %0d", matched), UVM_LOW)
+        `uvm_info(get_type_name(), $sformatf("Total Packets Mismatched : %0d", error), UVM_LOW)
+        $display("=================================================================================================================================================================");
     endfunction
 
 

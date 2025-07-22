@@ -35,12 +35,9 @@ class tx_driver extends uvm_driver #(tx_packet);
             
             @(posedge vif.atclk);
             seq_item_port.get_next_item(req);
-                
 
-
-                //vif.atvalid = 0;
+            vif.atvalid = 0;
             if(trace_q.size() == 4) begin
-                $display("CODE WORD");
                 req.atdata[7:0] = trace_q.pop_front();
                 req.atdata[15:8] = trace_q.pop_front();
                 req.atdata[23:16] = trace_q.pop_front();
@@ -64,6 +61,11 @@ class tx_driver extends uvm_driver #(tx_packet);
                 sent_packets++;
             end
 
+            if(vif.afvalid) begin 
+                @(posedge vif.atclk)
+                vif.afready = 1;
+
+            end
             count++;
             
             seq_item_port.item_done(req);
@@ -72,7 +74,7 @@ class tx_driver extends uvm_driver #(tx_packet);
     endtask: run_phase
 
     function void report_phase (uvm_phase phase);
-        `uvm_info(get_type_name(), $sformatf("TX DRIVER Packets SENT: %0d ", count), UVM_LOW);
+        //`uvm_info(get_type_name(), $sformatf("TX DRIVER Packets SENT: %0d ", count), UVM_LOW);
         `uvm_info(get_type_name(), $sformatf("TX DRIVER Packets SENT from QUEUE (atvalid && atready high): %0d ", sent_packets), UVM_LOW);
         `uvm_info(get_type_name(), $sformatf("TX DRIVER Packets with atvalid high : %0d ", atvalid_n), UVM_LOW);
         `uvm_info(get_type_name(), $sformatf("Packets Remaining in Queue: %0d ", tx_q.size()), UVM_LOW);

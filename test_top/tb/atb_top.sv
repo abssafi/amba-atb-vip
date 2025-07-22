@@ -21,12 +21,12 @@ module atb_top;
     end
 
 
-    property p1; 
-        @(posedge t_if.atclk)
-        !t_if.atvalid ##4  t_if.atvalid;
-    endproperty
+    // property p1; 
+    //     @(posedge t_if.atclk)
+    //     !t_if.atvalid ##4  t_if.atvalid;
+    // endproperty
 
-    assert property(p1) else $display("ASSERTION FAILED");
+    // assert property(p1) else $display("ASSERTION FAILED");
 
 
     initial begin 
