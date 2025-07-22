@@ -38,26 +38,26 @@ class tx_driver extends uvm_driver #(tx_packet);
             coverage_collect.write(req);
 
             vif.atvalid = req.atvalid;
-            if (vif.atvalid) begin
-                req.trace_data = 8'hab;
-                req.atdata[7:0] = req.trace_data;
-                `uvm_info(get_type_name(), $sformatf("1st cycle: The packet is %0h: ", req.atdata), UVM_LOW)
+            //if (vif.atvalid) begin
+            req.trace_data = 8'hab;
+            req.atdata[7:0] = req.trace_data;
+            `uvm_info(get_type_name(), $sformatf("1st cycle: The packet is %0h: ", req.atdata), UVM_LOW)
 
-                req.trace_data = 8'h12;
-                req.atdata[15:8] = req.trace_data;
-                `uvm_info(get_type_name(), $sformatf("2nd cycle: The packet is %0h: ", req.atdata), UVM_LOW)
-                
-                req.trace_data = 8'h34;
-                req.atdata[23:16] = req.trace_data;
-                `uvm_info(get_type_name(), $sformatf("3rd cycle: The packet is %0h: ", req.atdata), UVM_LOW)
+            req.trace_data = 8'h12;
+            req.atdata[15:8] = req.trace_data;
+            `uvm_info(get_type_name(), $sformatf("2nd cycle: The packet is %0h: ", req.atdata), UVM_LOW)
+            
+            req.trace_data = 8'h34;
+            req.atdata[23:16] = req.trace_data;
+            `uvm_info(get_type_name(), $sformatf("3rd cycle: The packet is %0h: ", req.atdata), UVM_LOW)
 
-                req.trace_data = 8'h56;
-                req.atdata[31:24] = req.trace_data;
-                `uvm_info(get_type_name(), $sformatf("4th cycle: The packet is %0h: ", req.atdata), UVM_LOW)
-                
-                tx_q.push_back(req);
-                atvalid_n++;
-            end
+            req.trace_data = 8'h56;
+            req.atdata[31:24] = req.trace_data;
+            `uvm_info(get_type_name(), $sformatf("4th cycle: The packet is %0h: ", req.atdata), UVM_LOW)
+            
+            tx_q.push_back(req);
+            atvalid_n++;
+           // end
             if (vif.atready && vif.atvalid) begin
                 send_p = tx_q.pop_front();
                 send_to_dut(send_p);
@@ -82,7 +82,6 @@ class tx_driver extends uvm_driver #(tx_packet);
         if (!uvm_config_db#(virtual atb_if)::get(this, "", "vif", vif))
         `uvm_fatal("NOVIF", "VIF in DRIVER is NOT SET")
     endfunction: connect_phase
-
 
 //------------------------------------------------------
 //                  Driver Methods
