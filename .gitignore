@@ -4,4 +4,4 @@ qaLog.txt
 *.key
 *.history
 cov_work/
-xcelium.d/
+xcelium.d/test_top/tb/waves.shm/

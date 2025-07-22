@@ -7,6 +7,7 @@ class rx_driver extends uvm_driver #(rx_packet);
 
     virtual atb_if vif;
     int count;
+    //int atready_n;
 
     function void build_phase(uvm_phase phase);
         super.build_phase (phase);
@@ -33,6 +34,8 @@ class rx_driver extends uvm_driver #(rx_packet);
             seq_item_port.get_next_item(req);
             send_to_dut(req);
             count++;
+                if (req.atready)
+                    atready_n++;
             seq_item_port.item_done(req);
             
         end
@@ -41,6 +44,7 @@ class rx_driver extends uvm_driver #(rx_packet);
 
     function void report_phase (uvm_phase phase);
         `uvm_info(get_type_name(), $sformatf("RX DRIVER Packets SENT: %0d", count), UVM_LOW);
+        //`uvm_info(get_type_name(), $sformatf("TX DRIVER Packets with atready_n high : %0d ", atready_n), UVM_LOW);
     endfunction: report_phase
 
     function void connect_phase (uvm_phase phase);
@@ -57,7 +61,7 @@ class rx_driver extends uvm_driver #(rx_packet);
         vif.atready = req.atready;
         vif.afvalid = req.atready;
         vif.syncreq = req.atready;
-        `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet SENT: \n%s", count+1, req.sprint()), UVM_LOW)   
+        `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet SENT: \n%s", count+1, req.sprint()), UVM_LOW)
     endtask: send_to_dut
 
     task reset_signals();
