@@ -48,7 +48,7 @@ class rx_test extends rx_sequence;
      bit ok;
     set_response_queue_depth(-1);
 
-    repeat(16) begin
+    repeat(221) begin
         // `uvm_create(req)
         // start_item(req);
         // ok = req.randomize();

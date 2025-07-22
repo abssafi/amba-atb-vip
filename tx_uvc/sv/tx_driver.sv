@@ -35,18 +35,17 @@ class tx_driver extends uvm_driver #(tx_packet);
             
             @(posedge vif.atclk);
             seq_item_port.get_next_item(req);
-
+            trace_q.push_back(req.trace_data);
             vif.atvalid = 0;
+
             if(trace_q.size() == 4) begin
                 req.atdata[7:0] = trace_q.pop_front();
                 req.atdata[15:8] = trace_q.pop_front();
                 req.atdata[23:16] = trace_q.pop_front();
                 req.atdata[31:24] = trace_q.pop_front();
-                //req.atvalid = 1;
-               vif.atvalid = 1;
+                vif.atvalid = 1;
+                req.atbytes = 4;
             end
-
-            trace_q.push_back(req.trace_data);
 
             tx_coverage_collect.write(req);
 
@@ -60,12 +59,7 @@ class tx_driver extends uvm_driver #(tx_packet);
                 send_to_dut(send_p);
                 sent_packets++;
             end
-
-            if(vif.afvalid) begin 
-                @(posedge vif.atclk)
-                vif.afready = 1;
-
-            end
+            
             count++;
             
             seq_item_port.item_done(req);
@@ -74,10 +68,11 @@ class tx_driver extends uvm_driver #(tx_packet);
     endtask: run_phase
 
     function void report_phase (uvm_phase phase);
-        //`uvm_info(get_type_name(), $sformatf("TX DRIVER Packets SENT: %0d ", count), UVM_LOW);
-        `uvm_info(get_type_name(), $sformatf("TX DRIVER Packets SENT from QUEUE (atvalid && atready high): %0d ", sent_packets), UVM_LOW);
+        `uvm_info(get_type_name(), $sformatf("TX DRIVER Packets Sent: %0d ", count), UVM_LOW);
+        `uvm_info(get_type_name(), $sformatf("TX DRIVER ATDATA Packets SENT (atvalid && atready high): %0d ", sent_packets), UVM_LOW);
+        //`uvm_info(get_type_name(), $sformatf("TX DRIVER ATDATA Packets SENT (atvalid && afvalid): %0d ", sent_packets), UVM_LOW);
         `uvm_info(get_type_name(), $sformatf("TX DRIVER Packets with atvalid high : %0d ", atvalid_n), UVM_LOW);
-        `uvm_info(get_type_name(), $sformatf("Packets Remaining in Queue: %0d ", tx_q.size()), UVM_LOW);
+        //`uvm_info(get_type_name(), $sformatf("Packets Remaining in Queue: %0d ", tx_q.size()), UVM_LOW);
     endfunction: report_phase
 
     function void connect_phase (uvm_phase phase);
@@ -90,6 +85,7 @@ class tx_driver extends uvm_driver #(tx_packet);
 //------------------------------------------------------
 
     task send_to_dut(tx_packet req);
+        //`uvm_info(get_type_name(), "send_to_dut() CALLED", UVM_LOW)
         vif.atdata = req.atdata;
         vif.atbytes = req.atbytes;
         vif.atid = req.atid;
@@ -108,6 +104,5 @@ class tx_driver extends uvm_driver #(tx_packet);
         vif.afready = 0;
         vif.atwakeup = 0;
     endtask : reset_signals
-
 
 endclass: tx_driver

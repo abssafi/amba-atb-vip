@@ -62,7 +62,7 @@ class rx_driver extends uvm_driver #(rx_packet);
 
     task send_to_dut(rx_packet req);
         vif.atready = req.atready;
-        vif.afvalid = req.afvalid;
+        vif.afvalid = req.atready;
         vif.syncreq = req.atready;
         `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet SENT: \n%s", count+1, req.sprint()), UVM_LOW)
     endtask: send_to_dut
