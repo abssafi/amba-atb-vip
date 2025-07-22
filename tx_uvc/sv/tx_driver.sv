@@ -1,7 +1,7 @@
 class tx_driver extends uvm_driver #(tx_packet);
     `uvm_component_utils(tx_driver)
 
-    uvm_analysis_port #(tx_packet) coverage_collect;
+    uvm_analysis_port #(tx_packet) tx_coverage_collect;
 
     function new (string name = "tx_driver", uvm_component parent);
         super.new(name, parent);
@@ -17,7 +17,7 @@ class tx_driver extends uvm_driver #(tx_packet);
     function void build_phase(uvm_phase phase);
         super.build_phase (phase);
         `uvm_info(get_type_name(), "BUILD PHASE RUNNING...", UVM_LOW);
-        coverage_collect = new("coverage_collect", this);
+        tx_coverage_collect = new("tx_coverage_collect", this);
     endfunction: build_phase
 
     task run_phase (uvm_phase phase);
@@ -35,7 +35,7 @@ class tx_driver extends uvm_driver #(tx_packet);
             @(negedge vif.atclk);
             seq_item_port.get_next_item(req);
 
-            coverage_collect.write(req);
+            tx_coverage_collect.write(req);
 
             vif.atvalid = req.atvalid;
             //if (vif.atvalid) begin

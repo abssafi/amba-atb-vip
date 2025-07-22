@@ -21,7 +21,7 @@ class tx_agent extends uvm_agent;
 
     function void connect_phase(uvm_phase phase);
         driver.seq_item_port.connect(sequencer.seq_item_export);
-        driver.coverage_collect.connect(tx_coverage_collecter.analysis_export);
+        driver.tx_coverage_collect.connect(tx_coverage_collecter.analysis_export);
     endfunction: connect_phase
 
 endclass: tx_agent

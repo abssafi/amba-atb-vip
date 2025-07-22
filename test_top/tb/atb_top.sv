@@ -5,9 +5,9 @@ module atb_top;
     import tx_pkg::*;
     import rx_pkg::*;
     `include "atb_scoreboard.sv"
+    `include "total_coverage.sv"
     `include "atb_top_env.sv"
     `include "atb_test.sv"
-
 
     bit atclk, atresetn;
 
