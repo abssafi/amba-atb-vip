@@ -39,6 +39,7 @@ class tx_driver extends uvm_driver #(tx_packet);
             get_packet();
             full_data_packet();
             flush_signal_assert();
+            assert_afready();
             tx_coverage_collect.write(req);
             queue_packet_if_valid();
             send_packet_if_ready();
@@ -112,13 +113,26 @@ class tx_driver extends uvm_driver #(tx_packet);
         req.atbytes = byte_n;
         vif.atvalid = 1;
         req.atvalid = 1;
-        //wait (vif.atready);
+        //wait (vif.atready);       
         send_to_dut(req);
         req.atvalid = 0;
-        req.afready = 1;
+        //req.afready = 1;
         flush_packets++;
     end
     endtask: flush_signal_assert
+
+
+    task assert_afready();
+        if(vif.afvalid == 1) begin
+            repeat(byte_n) begin
+                @(posedge vif.atclk);
+            end
+
+            vif.afready = 1;
+            #10;
+            vif.afready = 0;
+        end
+    endtask
 
 //==========================================================================
 //                 store_queue_packet()
@@ -155,7 +169,7 @@ class tx_driver extends uvm_driver #(tx_packet);
         //vif.atbytes = req.atbytes;
         vif.atid = req.atid;
         //vif.atvalid = req.atvalid;
-        //vif.afready = req.afready;
+        vif.afready = req.afready;
         //vif.syncreq = req.syncreq;
         //vif.atwakeup = req.atwakeup;
         //`uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet SENT: \n%s", count+1, req.sprint()), UVM_LOW)   
