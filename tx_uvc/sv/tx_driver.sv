@@ -35,25 +35,14 @@ class tx_driver extends uvm_driver #(tx_packet);
             `uvm_info(get_type_name(), "Reset Deactivated!", UVM_LOW);
           
         forever begin
-            
             @(posedge vif.atclk);
             get_packet();
             full_data_packet();
             flush_signal_assert();
-
             tx_coverage_collect.write(req);
-
             queue_packet_if_valid();
-
-            if (vif.atready && vif.atvalid) begin
-                $display("sending to bus (from tx)");
-                send_p = tx_q.pop_front();
-                send_to_dut(send_p);
-                sent_packets++;
-            end
-            
+            send_packet_if_ready();
             count++;
-            
             seq_item_port.item_done(req);
         end
 
