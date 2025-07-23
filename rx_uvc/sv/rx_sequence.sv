@@ -149,7 +149,15 @@ class nested_seq_testing extends rx_sequence;
         //     `uvm_do(ready_seq)
 
         //flush test, should receive 1.
+        // `uvm_do(low_seq)
+        // `uvm_do(valid_seq)
+        // `uvm_do(ready_seq)
+
+        //multiple flush logic, should recieve 2, 1 with atbytes = 4 and second with atbytes = 2.
         `uvm_do(low_seq)
+        `uvm_do(low_seq)
+        `uvm_do(ready_seq)
+        `uvm_do(ready_seq)
         `uvm_do(valid_seq)
         `uvm_do(ready_seq)
 

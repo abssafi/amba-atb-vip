@@ -48,7 +48,8 @@ class tx_driver extends uvm_driver #(tx_packet);
                 req.atdata[31:24] = trace_q.pop_front();
                 req.atvalid = 1;
                 vif.atvalid = 1;
-                req.atbytes = 4;
+                req.atbytes = 4'h4;
+                vif.atbytes = 4;
             end
 
             //flush logic, but incomplete, need to assert afreadt == 1 as well.
@@ -73,7 +74,6 @@ class tx_driver extends uvm_driver #(tx_packet);
                 for (int i = 0; i < 4 && trace_q.size() > 0; i++) begin
                     bte = trace_q.pop_front();
                     $display("Popped and stored in bte : %h", bte);
-                    $display("atdata now: %h", req.atdata);
                     case (i)
                         0: req.atdata[7:0] = bte;
                         1: req.atdata[15:8] = bte;
@@ -86,6 +86,10 @@ class tx_driver extends uvm_driver #(tx_packet);
                 req.atbytes = byte_n;
                 vif.atvalid = 1;
                 req.atvalid = 1;
+                //wait (vif.atready);
+                send_to_dut(req);
+                req.atvalid = 0;
+                req.afready = 1;
             end
 
             tx_coverage_collect.write(req);
@@ -133,9 +137,9 @@ class tx_driver extends uvm_driver #(tx_packet);
         vif.atbytes = req.atbytes;
         vif.atid = req.atid;
         //vif.atvalid = req.atvalid;
-        vif.afready = req.afready;
+        //vif.afready = req.afready;
         //vif.syncreq = req.syncreq;
-        vif.atwakeup = req.atwakeup;
+        //vif.atwakeup = req.atwakeup;
         `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet SENT: \n%s", count+1, req.sprint()), UVM_LOW)   
     endtask: send_to_dut
 

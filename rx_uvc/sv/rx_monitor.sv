@@ -36,17 +36,13 @@ class rx_monitor extends uvm_monitor;
 
         
         forever begin   
-            pkt = rx_packet::type_id::create("pkt", this);
-            void'(this.begin_tr(pkt, "RX_MONITOR PACKET"));        
-            @(posedge vif.atclk) 
+            @(posedge vif.atclk);
 
             if(vif.atready && vif.atvalid) begin
+                pkt = rx_packet::type_id::create("pkt", this);    
                 //`uvm_info(get_type_name(), "Transaction Detected in Monitor", UVM_HIGH)
                 collect_packet(pkt);
-                
                 //`uvm_info(get_type_name(), $sformatf("atdata : %0h | atbytes : %0h | atid : %0h", vif.atdata, vif.atbytes, vif.atid), UVM_LOW)
-            void'(this.end_tr(pkt));
-            
             #1;
             rx_collected_port.write(pkt);
             
@@ -68,6 +64,7 @@ class rx_monitor extends uvm_monitor;
         pkt.afvalid = vif.afvalid;
         pkt.syncreq = vif.syncreq;
         pkt.atdata = vif.atdata;
+        #1;
         `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet is \n%s", mon_pkt_col+1, pkt.sprint()), UVM_HIGH)  
     endtask : collect_packet
 
