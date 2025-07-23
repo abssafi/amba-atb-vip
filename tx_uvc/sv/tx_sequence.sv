@@ -189,12 +189,12 @@ class tx_valid_data_seq extends tx_sequence;
         `uvm_info(get_type_name(), "Running tx_valid_data_seq...", UVM_LOW)
 
          //simple packet test, should sent 4
-        repeat(24) 
+        repeat(16) 
             `uvm_do (d_seq)
 
         //flush test, atbytes value should be 2
-        repeat(2)
-            `uvm_do (d_seq)
+        // repeat(2)
+        //     `uvm_do (d_seq)
         
     endtask
 

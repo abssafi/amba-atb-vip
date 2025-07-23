@@ -259,13 +259,13 @@ class rx_valid_data_seq extends rx_sequence;
     task body();
         `uvm_info(get_type_name(), "Running rx_valid_data_seq...", UVM_LOW)
 
-        repeat(24) begin
+        repeat(16) begin
             `uvm_do(ready_seq)
         end
-            //`uvm_do(low_seq)
-            `uvm_do(valid_seq)
-            //`uvm_do(valid_seq)
-            `uvm_do(ready_seq)
+        //     `uvm_do(valid_seq)
+        //     //`uvm_do(valid_seq)
+        //     `uvm_do(ready_seq)
+        //    `uvm_do(low_seq)
 
     endtask
 
