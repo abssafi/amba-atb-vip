@@ -144,14 +144,14 @@ class nested_seq_testing extends rx_sequence;
     task body();
         `uvm_info(get_type_name(), "Running nested_seq_testing...", UVM_LOW)
 
-        //simple packet test, should received 7
-        // repeat(28)
-        //     `uvm_do(ready_seq)
+        //simple packet test, should received 20
+        repeat(80)
+            `uvm_do(ready_seq)
 
         //flush test, should receive 1.
-        `uvm_do(low_seq)
-        `uvm_do(valid_seq)
-        `uvm_do(ready_seq)
+            `uvm_do(low_seq)
+            `uvm_do(valid_seq)
+            `uvm_do(ready_seq)
 
     endtask
 

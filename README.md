@@ -27,3 +27,10 @@ fix: using the set_response_queue_depth(value), which is a method declared in ba
 
 challenge: trace data has to come byte by byte, so we first made a 32 bits atdata, and send byte by byte into it. so after 4 clock cycle we would have a complete word. but there was problem in race conditions.
 fix: so we used the blocking statement in tx_driver, as both were simulating on negedge, and tx_driver logic was dependent on atready, and rx_driver was also dependent on atvalid. so we just changed the operating edge of both. now one operating on rising edge and other operating on negedge. 
+
+(22- 23 july)
+challenge: now we have to implement atbytes in our condition, like if full packet is pushed, atbytes should be 4, and if flush condition is asserted, then atbytes would be the amount of valid bytes pushed by driver. e.g if we send 7 packets from our sequence, after pushing 4, atbytes would be 3(7-4 = 3). the main challenge was how to incorporate the afvalid signal in our logic. and how the correct atbytes should be checked.
+
+fix:  as incomming bytes (trace_data) are pushed one by one into trace_q on each posedge. when qsize == 4, word is formed. and packed in req.atdata. if less than 4 bytes remain in trace_q and afvalid is 1, then remaing bytes are flushed. 
+a loop is inserted to count the pop data. and the amount is first inserted in byte_n, and trace_q size decreases as loop continues. so if there are three remaining bytes, the loop will end in 3 cycles, and byte_n would be 3. 
+To tackle the race conditions, tx_driver drives the values on posedge atclk and rx_driver works on negedge.

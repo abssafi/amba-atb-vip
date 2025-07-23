@@ -78,9 +78,9 @@ class data_sequence_testing extends tx_sequence;
     task body();
         `uvm_info(get_type_name(), "Running data_sequence_testing...", UVM_LOW)
 
-        //simple packet test, should sent 7
-        // repeat(28)
-        //     `uvm_do (d_seq)
+        //simple packet test, should sent 20
+        repeat(80)
+            `uvm_do (d_seq)
 
         //flush test
         repeat(3)
