@@ -72,8 +72,8 @@ class tx_driver extends uvm_driver #(tx_packet);
 
                 for (int i = 0; i < 4 && trace_q.size() > 0; i++) begin
                     bte = trace_q.pop_front();
-                    $display("Popped and stored in bte : %0d", bte);
-                    $display("atdata now: %d", req.atdata);
+                    $display("Popped and stored in bte : %h", bte);
+                    $display("atdata now: %h", req.atdata);
                     case (i)
                         0: req.atdata[7:0] = bte;
                         1: req.atdata[15:8] = bte;
@@ -83,6 +83,7 @@ class tx_driver extends uvm_driver #(tx_packet);
                     byte_n++;
                 end
                 vif.atbytes = byte_n;
+                req.atbytes = byte_n;
                 vif.atvalid = 1;
                 req.atvalid = 1;
             end
@@ -96,6 +97,7 @@ class tx_driver extends uvm_driver #(tx_packet);
             end
 
             if (vif.atready && vif.atvalid) begin
+                $display("sending to bus (from tx)");
                 send_p = tx_q.pop_front();
                 send_to_dut(send_p);
                 sent_packets++;

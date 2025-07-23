@@ -32,7 +32,7 @@ class rx_driver extends uvm_driver #(rx_packet);
         forever begin
             // if (vif.atresetn == 0)
             //     reset_signals();
-            @(posedge vif.atclk);
+            @(negedge vif.atclk);
             
             seq_item_port.get_next_item(req);
 

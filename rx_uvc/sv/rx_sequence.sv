@@ -39,6 +39,28 @@ class rx_sequence extends uvm_sequence#(rx_packet);
 endclass: rx_sequence
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                          all_low                                          //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class all_low extends rx_sequence;
+     `uvm_object_utils(all_low)
+
+    function new (string name = "all_low");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running all_low...", UVM_LOW)
+        `uvm_do_with(req, {
+            req.atready == 0;
+            req.afvalid == 0;
+            req.syncreq == 0;
+            })
+    endtask
+
+endclass: all_low
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////                      at_ready_high_only                                     //////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -111,8 +133,9 @@ endclass: syncreq_high_only
 class nested_seq_testing extends rx_sequence;
      `uvm_object_utils(nested_seq_testing)
 
-     at_ready_high_only ready_seq;
-     afvalid_high_only valid_seq;
+    all_low low_seq;
+    at_ready_high_only ready_seq;
+    afvalid_high_only valid_seq;
 
     function new (string name = "nested_seq_testing");
         super.new(name);
@@ -120,10 +143,16 @@ class nested_seq_testing extends rx_sequence;
 
     task body();
         `uvm_info(get_type_name(), "Running nested_seq_testing...", UVM_LOW)
-        repeat(28)
-            `uvm_do(ready_seq)
-    //`uvm_do(valid_seq)
-       //`uvm_do(ready_seq)
+
+        //simple packet test, should received 7
+        // repeat(28)
+        //     `uvm_do(ready_seq)
+
+        //flush test, should receive 1.
+        `uvm_do(low_seq)
+        `uvm_do(valid_seq)
+        `uvm_do(ready_seq)
+
     endtask
 
 endclass: nested_seq
