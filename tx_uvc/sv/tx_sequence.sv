@@ -63,20 +63,20 @@ class data_sequence extends tx_sequence;
 endclass: data_sequence 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////                         data_sequence_testing                               //////////////////////////
+//////////////////////////                         tx_flush_test_seq                                  //////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class data_sequence_testing extends tx_sequence;
-     `uvm_object_utils(data_sequence_testing)
+class tx_flush_test_seq extends tx_sequence;
+     `uvm_object_utils(tx_flush_test_seq)
 
      data_sequence d_seq;
     
-    function new (string name = "data_sequence");
+    function new (string name = "tx_flush_test_seq");
         super.new(name);
     endfunction
 
     task body();
-        `uvm_info(get_type_name(), "Running data_sequence_testing...", UVM_LOW)
+        `uvm_info(get_type_name(), "Running tx_flush_test_seq...", UVM_LOW)
 
         //simple packet test, should sent 20
         repeat(80)
@@ -88,4 +88,4 @@ class data_sequence_testing extends tx_sequence;
         
     endtask
 
-endclass: data_sequence_testing
+endclass: tx_flush_test_seq

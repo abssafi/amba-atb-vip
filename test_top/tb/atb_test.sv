@@ -9,8 +9,8 @@ class base_test extends uvm_test;
 
     function void build_phase (uvm_phase phase);
         uvm_config_int::set( this, "*", "recording_detail", 1); 
-        uvm_config_wrapper::set(this, "top_env.tx_uvc.agent.sequencer.run_phase", "default_sequence", data_sequence_testing::get_type());
-        uvm_config_wrapper::set(this, "top_env.rx_uvc.agent.sequencer.run_phase", "default_sequence", nested_seq_testing::get_type());
+        // uvm_config_wrapper::set(this, "top_env.tx_uvc.agent.sequencer.run_phase", "default_sequence", data_sequence_testing::get_type());
+        // uvm_config_wrapper::set(this, "top_env.rx_uvc.agent.sequencer.run_phase", "default_sequence", nested_seq_testing::get_type());
 
         top_env = atb_test_env::type_id::create("top_env", this);
         `uvm_info(get_type_name, "BUILD PHASE RUNNING...", UVM_LOW)
@@ -28,3 +28,25 @@ class base_test extends uvm_test;
     endtask: run_phase
 
 endclass: base_test
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                          flush_seq_test                                    //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class flush_seq_test extends base_test;
+    `uvm_component_utils(flush_seq_test)
+
+    function new (string name = "flush_seq_test", uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+
+    function void build_phase (uvm_phase phase);
+        uvm_config_int::set( this, "*", "recording_detail", 1); 
+        uvm_config_wrapper::set(this, "top_env.tx_uvc.agent.sequencer.run_phase", "default_sequence", tx_flush_test_seq::get_type());
+        uvm_config_wrapper::set(this, "top_env.rx_uvc.agent.sequencer.run_phase", "default_sequence", rx_flush_test_seq::get_type());
+
+        `uvm_info(get_type_name, "BUILD PHASE RUNNING...", UVM_LOW)
+        super.build_phase(phase);
+    endfunction: build_phase
+
+endclass: flush_seq_test

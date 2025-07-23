@@ -127,22 +127,22 @@ class syncreq_high_only extends rx_sequence;
 endclass: syncreq_high_only
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////                           nested_seq_testing                               //////////////////////////
+//////////////////////////                           rx_flush_test_seq                                //////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class nested_seq_testing extends rx_sequence;
-     `uvm_object_utils(nested_seq_testing)
+class rx_flush_test_seq extends rx_sequence;
+     `uvm_object_utils(rx_flush_test_seq)
 
     all_low low_seq;
     at_ready_high_only ready_seq;
     afvalid_high_only valid_seq;
 
-    function new (string name = "nested_seq_testing");
+    function new (string name = "rx_flush_test_seq");
         super.new(name);
     endfunction
 
     task body();
-        `uvm_info(get_type_name(), "Running nested_seq_testing...", UVM_LOW)
+        `uvm_info(get_type_name(), "Running rx_flush_test_seq...", UVM_LOW)
 
         //simple packet test, should received 20
         repeat(80)
@@ -155,4 +155,4 @@ class nested_seq_testing extends rx_sequence;
 
     endtask
 
-endclass: nested_seq
+endclass: rx_flush_test_seq
