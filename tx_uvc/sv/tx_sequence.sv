@@ -85,6 +85,11 @@ class data_sequence_testing extends tx_sequence;
         //flush test
         repeat(3)
             `uvm_do (d_seq)
+        
+        #10;
+
+        repeat(28)
+            `uvm_do (d_seq)
 
     endtask
 

@@ -16,6 +16,7 @@ class tx_driver extends uvm_driver #(tx_packet);
     int atvalid_n;
     int byte_n;
     int bte;
+    int flush_packets;
 
     function void build_phase(uvm_phase phase);
         super.build_phase (phase);
@@ -86,6 +87,7 @@ class tx_driver extends uvm_driver #(tx_packet);
                 req.atbytes = byte_n;
                 vif.atvalid = 1;
                 req.atvalid = 1;
+                flush_packets++;
             end
 
             tx_coverage_collect.write(req);
@@ -112,7 +114,8 @@ class tx_driver extends uvm_driver #(tx_packet);
 
     function void report_phase (uvm_phase phase);
         `uvm_info(get_type_name(), $sformatf("TX DRIVER Packets Sent: %0d ", count), UVM_LOW);
-        `uvm_info(get_type_name(), $sformatf("TX DRIVER ATDATA Packets SENT (atvalid && atready high): %0d ", sent_packets), UVM_LOW);
+        `uvm_info(get_type_name(), $sformatf("TX DRIVER (Full DATA Packets): %0d ", sent_packets), UVM_LOW);
+        `uvm_info(get_type_name(), $sformatf("TX DRIVER (Packets Flushed): %0d ", flush_packets), UVM_LOW);
         //`uvm_info(get_type_name(), $sformatf("TX DRIVER ATDATA Packets SENT (atvalid && afvalid): %0d ", sent_packets), UVM_LOW);
         `uvm_info(get_type_name(), $sformatf("TX DRIVER Packets with atvalid high : %0d ", atvalid_n), UVM_LOW);
         //`uvm_info(get_type_name(), $sformatf("Packets Remaining in Queue: %0d ", tx_q.size()), UVM_LOW);
