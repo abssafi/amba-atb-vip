@@ -49,6 +49,7 @@ class tx_driver extends uvm_driver #(tx_packet);
                 req.atbytes = 4;
             end
 
+<<<<<<< HEAD
             //flush logic, but incomplete, need to assert afreadt == 1 as well.
             if (vif.afvalid == 1 && trace_q.size() > 0) begin
                 req.atdata = 0;
@@ -82,6 +83,8 @@ class tx_driver extends uvm_driver #(tx_packet);
                 vif.atvalid = 1;
             end
 
+=======
+>>>>>>> b9fdad6aab63757ebfb2da92f75ed7b9e502e3f9
             tx_coverage_collect.write(req);
 
             if(vif.atvalid) begin
