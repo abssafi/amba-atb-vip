@@ -19,6 +19,10 @@ class tx_sequence extends uvm_sequence#(tx_packet);
 
     endtask : pre_body
 
+    task body();
+        set_response_queue_depth(-1);
+    endtask: body
+
     task post_body();
         uvm_phase phase;
         `ifdef UVM_VERSION_1_2
@@ -32,33 +36,49 @@ class tx_sequence extends uvm_sequence#(tx_packet);
         end
     endtask : post_body
 
-    
-
 endclass: tx_sequence
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////                         First Sequence                                   //////////////////////////
+//////////////////////////                            data_sequence                                   //////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class tx_test extends tx_sequence;
-     `uvm_object_utils(tx_test)
+class data_sequence extends tx_sequence;
+     `uvm_object_utils(data_sequence)
     
-    function new (string name = "tx_test");
+    function new (string name = "data_sequence");
         super.new(name);
     endfunction
 
     task body();
-    bit ok;
-    set_response_queue_depth(-1);
-
-    repeat(16) begin
+        bit ok;
+        `uvm_info(get_type_name(), "Running data_sequence...", UVM_LOW)
         `uvm_create(req)
         start_item(req);
         ok = req.randomize();
-            assert (ok) else `uvm_fatal("TX_DRIVER", "RANDOMIZATION FAILED");
+        assert (ok) else `uvm_fatal("TX_DRIVER", "RANDOMIZATION FAILED");
         finish_item(req);
-    end
 
+    endtask: body
+
+endclass: data_sequence 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                         data_sequence_testing                               //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class data_sequence_testing extends tx_sequence;
+     `uvm_object_utils(data_sequence_testing)
+
+     data_sequence d_seq;
+    
+    function new (string name = "data_sequence");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running data_sequence_testing...", UVM_LOW)
+        repeat(28)
+            `uvm_do (d_seq)
     endtask
 
-endclass   
+endclass: data_sequence_testing 

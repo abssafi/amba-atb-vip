@@ -21,7 +21,7 @@ class rx_coverage extends uvm_subscriber#(rx_packet);
         rcg.sample();
         pkt_count++;
         coverage = $get_coverage(); 
-        `uvm_info("RX COVERAGE", $sformatf("%0d Packets Sampled, Coverage = %0d", pkt_count, coverage), UVM_LOW)
+        //`uvm_info("RX COVERAGE", $sformatf("%0d Packets Sampled, Coverage = %0d", pkt_count, coverage), UVM_LOW)
     endfunction: write
 
 endclass: tx_coverage

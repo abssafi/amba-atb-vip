@@ -34,17 +34,17 @@ class rx_monitor extends uvm_monitor;
         wait(vif.atresetn == 1);
         `uvm_info(get_type_name(), "Reset Deasserted!", UVM_LOW);
 
-        pkt = rx_packet::type_id::create("pkt", this);
         
         forever begin   
+            pkt = rx_packet::type_id::create("pkt", this);
             void'(this.begin_tr(pkt, "RX_MONITOR PACKET"));        
             @(posedge vif.atclk) 
 
             if(vif.atready && vif.atvalid) begin
-                `uvm_info(get_type_name(), "Transaction Detected in Monitor", UVM_HIGH)
+                //`uvm_info(get_type_name(), "Transaction Detected in Monitor", UVM_HIGH)
                 collect_packet(pkt);
                 
-                `uvm_info(get_type_name(), $sformatf("atdata : %0h | atbytes : %0h | atid : %0h", vif.atdata, vif.atbytes, vif.atid), UVM_LOW)
+                //`uvm_info(get_type_name(), $sformatf("atdata : %0h | atbytes : %0h | atid : %0h", vif.atdata, vif.atbytes, vif.atid), UVM_LOW)
             void'(this.end_tr(pkt));
             
             #1;

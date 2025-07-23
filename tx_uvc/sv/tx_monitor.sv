@@ -36,7 +36,7 @@ class tx_monitor extends uvm_monitor;
         forever begin           
             @(posedge vif.atclk);
             if (vif.atvalid && vif.atready)   begin
-                `uvm_info(get_type_name(), "Transaction Detected in Monitor", UVM_HIGH)
+                //`uvm_info(get_type_name(), "Transaction Detected in Monitor", UVM_HIGH)
                 pkt = tx_packet::type_id::create("pkt", this);
                 collect_packet(pkt);
 

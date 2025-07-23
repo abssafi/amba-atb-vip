@@ -26,7 +26,7 @@ class tx_coverage extends uvm_subscriber#(tx_packet);
         tcg.sample();
         pkt_count++;
         coverage = $get_coverage(); 
-        `uvm_info("TX COVERAGE", $sformatf("%0d Packets Sampled, Coverage = %0d", pkt_count, coverage), UVM_LOW)
+        //`uvm_info("TX COVERAGE", $sformatf("%0d Packets Sampled, Coverage = %0d", pkt_count, coverage), UVM_LOW)
     endfunction: write
 
 endclass: tx_coverage

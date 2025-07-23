@@ -61,7 +61,7 @@ class total_coverage extends uvm_component;
 
         atb.sample();
         pkt_tx_count++;
-        `uvm_info("TOTAL COVERAGE (TX PACKETS)", $sformatf("%0d Packets Sampled", pkt_tx_count), UVM_LOW)
+        //`uvm_info("TOTAL COVERAGE (TX PACKETS)", $sformatf("%0d Packets Sampled", pkt_tx_count), UVM_LOW)
     endfunction: write
 
     function void write_rxcoverg (rx_packet r);
@@ -71,7 +71,7 @@ class total_coverage extends uvm_component;
 
         atb.sample();
         pkt_rx_count++;
-        `uvm_info("TOTAL COVERAGE (rX PACKETS)", $sformatf("%0d Packets Sampled", pkt_rx_count), UVM_LOW)
+        //`uvm_info("TOTAL COVERAGE (rX PACKETS)", $sformatf("%0d Packets Sampled", pkt_rx_count), UVM_LOW)
     endfunction: write
 
 endclass: total_coverage

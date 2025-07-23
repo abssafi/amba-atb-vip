@@ -1,19 +1,18 @@
 interface atb_if (input bit atclk, input bit atresetn);
-    /*Global Signals*/
+
     logic atclken;
 
-    /*Data Signals*/
-    logic [31:0] atdata; // Trace data
-    logic [1:0] atbytes; // The number of bytes on ATDATA to be captured, minus 1.
-    logic [6:0] atid;    // An ID that uniquely identifies the source of the trace
+    logic [31:0] atdata;
+    logic [1:0] atbytes;
+    logic [6:0] atid;
 
-    logic atvalid;       // A transfer is valid during this cycle
-    logic atready;       // The Receiver is ready to accept data
+    logic atvalid;
+    logic atready;
     
-    logic afready;       // Flush signal ready
-    logic afvalid;       // Flush signal valid
+    logic afready;
+    logic afvalid;
 
-    logic syncreq;       // Synchronization request signal
-    logic atwakeup;      // Wake-up Signal
+    logic syncreq;
+    logic atwakeup;
 
 endinterface : atb_if
