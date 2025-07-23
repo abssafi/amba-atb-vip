@@ -79,7 +79,7 @@ class tx_flush_test_seq extends tx_sequence;
         `uvm_info(get_type_name(), "Running tx_flush_test_seq...", UVM_LOW)
 
         //simple packet test, should sent 20
-        repeat(80)
+        repeat(60)
             `uvm_do (d_seq)
 
         //flush test

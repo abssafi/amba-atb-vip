@@ -30,19 +30,14 @@ class rx_driver extends uvm_driver #(rx_packet);
             
         @(posedge vif.atclk);
         forever begin
-
             if (vif.atresetn == 0)
                 reset_signals();
-                
             @(negedge vif.atclk);
-            
             seq_item_port.get_next_item(req);
-
             rx_coverage_collect.write(req);
             send_to_dut(req);
             count++;
             seq_item_port.item_done(req);
-            
         end
 
     endtask: run_phase
@@ -58,9 +53,9 @@ class rx_driver extends uvm_driver #(rx_packet);
     endfunction: connect_phase
 
 
-//------------------------------------------------------
-//                  Driver Methods
-//------------------------------------------------------
+//==========================================================================
+//                  Driver Method
+//==========================================================================
 
     task send_to_dut(rx_packet req);
         vif.atready = req.atready;
@@ -68,6 +63,10 @@ class rx_driver extends uvm_driver #(rx_packet);
         vif.syncreq = req.syncreq;
         //`uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet SENT: \n%s", count+1, req.sprint()), UVM_LOW)
     endtask: send_to_dut
+
+//==========================================================================
+//                  Reset Method
+//==========================================================================
 
     task reset_signals();
         vif.atready = 0;
