@@ -16,9 +16,10 @@ interface atb_if (input bit atclk, input bit atresetn);
     logic atwakeup;
 
 // a4: assert property (fourth) else $fatal("fourth asserion failed"); 
-a1: assert property (first) else $fatal("first asserion failed"); 
+// a1: assert property (first) else $fatal("first asserion failed"); 
 // a2: assert property (second) else $fatal("second asserion failed"); 
 // a3: assert property (third) else $fatal("third asserion failed"); 
+a5: assert property (fifth) else $fatal("fifth assertion failed");
 
 
 
@@ -40,5 +41,12 @@ endproperty
 // property fourth;
 // (@(posedge atclk) (atvalid && atready |-> (atdata !== '0)));
 // endproperty
+
+//data should be zero when atvalid is 0. 
+
+property fifth;
+(@(posedge atclk) (atvalid == 0 |-> atdata == 0));
+
+endproperty
 
 endinterface : atb_if
