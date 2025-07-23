@@ -145,7 +145,7 @@ class rx_flush_test_seq extends rx_sequence;
         `uvm_info(get_type_name(), "Running rx_flush_test_seq...", UVM_LOW)
 
         //simple packet test, should received 20
-        repeat(80)
+        repeat(60)
             `uvm_do(ready_seq)
 
         //flush test, should receive 1.

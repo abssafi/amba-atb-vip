@@ -35,17 +35,7 @@ class tx_monitor extends uvm_monitor;
 
         forever begin           
             @(posedge vif.atclk);
-            if (vif.atvalid && vif.atready)   begin
-                //`uvm_info(get_type_name(), "Transaction Detected in Monitor", UVM_HIGH)
-                pkt = tx_packet::type_id::create("pkt", this);
-                collect_packet(pkt);
-
-                /*Port to scoreboard*/
-                tx_collected_port.write(pkt);
-
-                mon_pkt_col++;
-            end
-                    
+            get_packet();                
         end
     endtask: run_phase
 
@@ -53,9 +43,9 @@ class tx_monitor extends uvm_monitor;
         `uvm_info(get_type_name(), $sformatf("TX MONITOR Received Packets: %0d ", mon_pkt_col), UVM_HIGH)
     endfunction: report_phase
 
-//------------------------------------------------------
-//                  Driver Methods
-//------------------------------------------------------
+//==========================================================================
+//                  collect_packet()
+//==========================================================================
 
     task collect_packet(input tx_packet pkt);
         pkt.atclken = vif.atclken;
@@ -67,5 +57,21 @@ class tx_monitor extends uvm_monitor;
         pkt.atwakeup = vif.atwakeup;
         `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet is \n%s", mon_pkt_col+1, pkt.sprint()), UVM_HIGH)  
     endtask : collect_packet
+
+//==========================================================================
+//                  get_packets()
+//==========================================================================
+
+    task get_packet();
+        if (vif.atvalid && vif.atready) begin
+            pkt = tx_packet::type_id::create("pkt", this);
+            collect_packet(pkt);
+
+            /*Port to scoreboard*/
+            tx_collected_port.write(pkt);
+
+            mon_pkt_col++;
+        end
+    endtask : get_packet
 
 endclass: tx_monitor

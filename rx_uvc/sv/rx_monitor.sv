@@ -34,20 +34,9 @@ class rx_monitor extends uvm_monitor;
         wait(vif.atresetn == 1);
         `uvm_info(get_type_name(), "Reset Deasserted!", UVM_LOW);
 
-        
         forever begin   
             @(posedge vif.atclk);
-
-            if(vif.atready && vif.atvalid) begin
-                pkt = rx_packet::type_id::create("pkt", this);    
-                //`uvm_info(get_type_name(), "Transaction Detected in Monitor", UVM_HIGH)
-                collect_packet(pkt);
-                //`uvm_info(get_type_name(), $sformatf("atdata : %0h | atbytes : %0h | atid : %0h", vif.atdata, vif.atbytes, vif.atid), UVM_LOW)
-            #1;
-            rx_collected_port.write(pkt);
-            
-            mon_pkt_col++;
-            end
+            get_packet();          
         end
     endtask: run_phase
 
@@ -55,10 +44,9 @@ class rx_monitor extends uvm_monitor;
         `uvm_info(get_type_name(), $sformatf("RX MONITOR received Packets: %0d ", mon_pkt_col), UVM_HIGH)
     endfunction: report_phase
 
-//--------------------------------------------------------------------------------------------------
-//                  Driver Methods
-//--------------------------------------------------------------------------------------------------
-
+//==========================================================================
+//                  collect_packet()
+//==========================================================================
     task collect_packet(input rx_packet pkt);
         pkt.atready = vif.atready;
         pkt.afvalid = vif.afvalid;
@@ -68,5 +56,20 @@ class rx_monitor extends uvm_monitor;
         #1;
         `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet is \n%s", mon_pkt_col+1, pkt.sprint()), UVM_HIGH)  
     endtask : collect_packet
+
+//==========================================================================
+//                  get_packets()
+//==========================================================================
+
+    task get_packet();
+        if(vif.atready && vif.atvalid) begin
+            pkt = rx_packet::type_id::create("pkt", this);
+            collect_packet(pkt);
+            //`uvm_info(get_type_name(), $sformatf("atdata : %0h | atbytes : %0h | atid : %0h", vif.atdata, vif.atbytes, vif.atid), UVM_LOW)
+            #1;
+            rx_collected_port.write(pkt);
+            mon_pkt_col++;
+        end
+    endtask : get_packet
 
 endclass: rx_monitor
