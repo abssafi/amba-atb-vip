@@ -6,7 +6,7 @@ class tx_packet extends uvm_sequence_item;
     rand bit [7:0] trace_data;
 
     bit atclken;
-    bit [1:0] atbytes;
+    bit [2:0] atbytes;
     bit [6:0] atid;
     bit [31:0] atdata;
     bit atvalid;          

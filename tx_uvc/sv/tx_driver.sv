@@ -41,6 +41,7 @@ class tx_driver extends uvm_driver #(tx_packet);
             trace_q.push_back(req.trace_data);
             req.atvalid = 0;
             vif.atvalid = 0;
+            
 
             if(trace_q.size() == 4) begin
                 req.atdata[7:0] = trace_q.pop_front();
@@ -49,8 +50,9 @@ class tx_driver extends uvm_driver #(tx_packet);
                 req.atdata[31:24] = trace_q.pop_front();
                 req.atvalid = 1;
                 vif.atvalid = 1;
-                req.atbytes = 4'h4;
+                req.atbytes = 4;
                 vif.atbytes = 4;
+                
             end
 
             //flush logic, but incomplete, need to assert afreadt == 1 as well.
@@ -138,7 +140,7 @@ class tx_driver extends uvm_driver #(tx_packet);
     task send_to_dut(tx_packet req);
         `uvm_info(get_type_name(), "send_to_dut() CALLED", UVM_LOW)
         vif.atdata = req.atdata;
-        vif.atbytes = req.atbytes;
+        //vif.atbytes = req.atbytes;
         vif.atid = req.atid;
         //vif.atvalid = req.atvalid;
         //vif.afready = req.afready;
