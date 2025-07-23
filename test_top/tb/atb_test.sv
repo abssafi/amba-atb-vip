@@ -24,7 +24,7 @@ class base_test extends uvm_test;
     task run_phase (uvm_phase phase);
         uvm_objection obj;
         obj = phase.get_objection();
-        obj.set_drain_time(this, 10);
+        obj.set_drain_time(this, 5);
     endtask: run_phase
 
 endclass: base_test

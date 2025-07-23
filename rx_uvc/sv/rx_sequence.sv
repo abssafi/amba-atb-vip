@@ -122,7 +122,7 @@ class nested_seq_testing extends rx_sequence;
         `uvm_info(get_type_name(), "Running nested_seq_testing...", UVM_LOW)
         repeat(28)
             `uvm_do(ready_seq)
-            //`uvm_do(valid_seq)
+    //`uvm_do(valid_seq)
        //`uvm_do(ready_seq)
     endtask
 

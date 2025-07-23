@@ -50,25 +50,13 @@ class data_sequence extends tx_sequence;
     endfunction
 
     task body();
-<<<<<<< HEAD
         bit ok;
         `uvm_info(get_type_name(), "Running data_sequence...", UVM_LOW)
-=======
-    bit ok;
-    set_response_queue_depth(-1);
-
-    repeat(210) begin
->>>>>>> b9fdad6aab63757ebfb2da92f75ed7b9e502e3f9
         `uvm_create(req)
         start_item(req);
         ok = req.randomize();
         assert (ok) else `uvm_fatal("TX_DRIVER", "RANDOMIZATION FAILED");
         finish_item(req);
-<<<<<<< HEAD
-=======
-
-    end
->>>>>>> b9fdad6aab63757ebfb2da92f75ed7b9e502e3f9
 
     endtask: body
 

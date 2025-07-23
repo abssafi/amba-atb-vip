@@ -38,6 +38,7 @@ class tx_driver extends uvm_driver #(tx_packet);
             @(posedge vif.atclk);
             seq_item_port.get_next_item(req);
             trace_q.push_back(req.trace_data);
+            req.atvalid = 0;
             vif.atvalid = 0;
 
             if(trace_q.size() == 4) begin
@@ -45,15 +46,15 @@ class tx_driver extends uvm_driver #(tx_packet);
                 req.atdata[15:8] = trace_q.pop_front();
                 req.atdata[23:16] = trace_q.pop_front();
                 req.atdata[31:24] = trace_q.pop_front();
+                req.atvalid = 1;
                 vif.atvalid = 1;
                 req.atbytes = 4;
             end
 
-<<<<<<< HEAD
             //flush logic, but incomplete, need to assert afreadt == 1 as well.
             if (vif.afvalid == 1 && trace_q.size() > 0) begin
-                req.atdata = 0;
-                vif.atbytes = 0;
+                //req.atdata = 0;
+                req.atbytes = 0;
 
                 // for (int i = 0, i < 4, i++) begin 
                 //     while (trace_q.size() != 0) begin
@@ -71,6 +72,8 @@ class tx_driver extends uvm_driver #(tx_packet);
 
                 for (int i = 0; i < 4 && trace_q.size() > 0; i++) begin
                     bte = trace_q.pop_front();
+                    $display("Popped and stored in bte : %0d", bte);
+                    $display("atdata now: %d", req.atdata);
                     case (i)
                         0: req.atdata[7:0] = bte;
                         1: req.atdata[15:8] = bte;
@@ -81,15 +84,15 @@ class tx_driver extends uvm_driver #(tx_packet);
                 end
                 vif.atbytes = byte_n;
                 vif.atvalid = 1;
+                req.atvalid = 1;
             end
 
-=======
->>>>>>> b9fdad6aab63757ebfb2da92f75ed7b9e502e3f9
             tx_coverage_collect.write(req);
 
             if(vif.atvalid) begin
                 tx_q.push_back(req);
                 atvalid_n++;
+                `uvm_info(get_type_name(), $sformatf("TX Packet Stored (atvalid high): \n%s", req.sprint()), UVM_LOW)   
             end
 
             if (vif.atready && vif.atvalid) begin
