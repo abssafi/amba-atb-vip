@@ -7,7 +7,7 @@ class tx_packet extends uvm_sequence_item;
 
     bit atclken;
     bit [2:0] atbytes;
-    bit [6:0] atid;
+    rand bit [6:0] atid;
     bit [31:0] atdata;
     bit atvalid;          
     bit afready;        
@@ -18,13 +18,14 @@ class tx_packet extends uvm_sequence_item;
         `uvm_field_int(atdata, UVM_ALL_ON)
         `uvm_field_enum(source_t, atb_source, UVM_ALL_ON)
         `uvm_field_int(atbytes, UVM_ALL_ON)
-        //`uvm_field_int(atid, UVM_ALL_ON)
+        `uvm_field_int(atid, UVM_ALL_ON)
         //`uvm_field_int(atvalid, UVM_ALL_ON)
         //`uvm_field_int(afready, UVM_ALL_ON)
         //`uvm_field_int(atwakeup, UVM_ALL_ON)
     `uvm_object_utils_end
 
-    /*Constructor*/
+    constraint atid_const { !(atid inside {[7'h70:7'h7C],7'h7E,7'h7F}); }
+    
     function new(string name = "tx_packet");
         super.new(name);
     endfunction : new

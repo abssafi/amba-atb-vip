@@ -16,7 +16,7 @@ module atb_top;
     initial begin
         uvm_config_db#(virtual atb_if)::set(null, "*.top_env.tx_uvc.agent.*", "vif", t_if);
         uvm_config_db#(virtual atb_if)::set(null, "*.top_env.rx_uvc.agent.*", "vif", t_if);
-        run_test("flush_seq_test");
+        run_test("valid_data_test");
     end
 
     initial begin 

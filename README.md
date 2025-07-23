@@ -34,3 +34,7 @@ challenge: now we have to implement atbytes in our condition, like if full packe
 fix:  as incomming bytes (trace_data) are pushed one by one into trace_q on each posedge. when qsize == 4, word is formed. and packed in req.atdata. if less than 4 bytes remain in trace_q and afvalid is 1, then remaing bytes are flushed. 
 a loop is inserted to count the pop data. and the amount is first inserted in byte_n, and trace_q size decreases as loop continues. so if there are three remaining bytes, the loop will end in 3 cycles, and byte_n would be 3. 
 To tackle the race conditions, tx_driver drives the values on posedge atclk and rx_driver works on negedge.
+
+23-july
+
+challenge: during flushing, if rx_sequence gave atready 1, the packet doesn't go to queue. but if afvalid and atready both high on first flushing cycle, the result comes correct. 

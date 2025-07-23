@@ -156,3 +156,117 @@ class rx_flush_test_seq extends rx_sequence;
     endtask
 
 endclass: rx_flush_test_seq
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                           rx_ready_flag_seq                                //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class rx_ready_flag_seq extends rx_sequence;
+     `uvm_object_utils(rx_ready_flag_seq)
+
+    all_low low_seq;
+    at_ready_high_only ready_seq;
+    afvalid_high_only valid_seq;
+
+    function new (string name = "rx_ready_flag_seq");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running rx_ready_flag_seq...", UVM_LOW)
+
+        //Here atready is 1
+        repeat(20)
+            `uvm_do(ready_seq)
+        
+        
+        //Here atready is 0
+        repeat(20)
+            `uvm_do(low_seq)
+
+    endtask
+
+endclass: rx_ready_flag_seq
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                           rx_coherence_seq                                //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class rx_coherence_seq extends rx_sequence;
+     `uvm_object_utils(rx_coherence_seq)
+
+    at_ready_high_only ready_seq;
+    
+    function new (string name = "rx_coherence_seq");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running rx_coherence_seq...", UVM_LOW)
+
+        repeat(32)
+            `uvm_do(ready_seq)
+        
+
+    endtask
+
+endclass: rx_coherence_seq
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                           rx_byte_order_seq                                //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class rx_byte_order_seq extends rx_sequence;
+     `uvm_object_utils(rx_byte_order_seq)
+
+    at_ready_high_only ready_seq;
+    
+    function new (string name = "rx_byte_order_seq");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running rx_byte_order_seq...", UVM_LOW)
+
+        repeat(40)
+            `uvm_do(ready_seq)
+        
+
+    endtask
+
+endclass: rx_byte_order_seq
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                           rx_valid_data_seq                                //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class rx_valid_data_seq extends rx_sequence;
+     `uvm_object_utils(rx_valid_data_seq)
+
+    all_low low_seq;
+    at_ready_high_only ready_seq;
+    afvalid_high_only valid_seq;
+    
+    function new (string name = "rx_valid_data_seq");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running rx_valid_data_seq...", UVM_LOW)
+
+        repeat(24) begin
+            `uvm_do(ready_seq)
+        end
+            //`uvm_do(low_seq)
+            `uvm_do(valid_seq)
+            //`uvm_do(valid_seq)
+            `uvm_do(ready_seq)
+
+    endtask
+
+endclass: rx_valid_data_seq

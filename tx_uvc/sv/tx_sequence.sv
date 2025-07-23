@@ -89,3 +89,113 @@ class tx_flush_test_seq extends tx_sequence;
     endtask
 
 endclass: tx_flush_test_seq
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                         tx_ready_flag_seq                                  //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+class tx_ready_flag_seq extends tx_sequence;
+     `uvm_object_utils(tx_ready_flag_seq)
+
+     data_sequence d_seq;
+    
+    function new (string name = "tx_ready_flag_seq");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running tx_ready_flag_seq...", UVM_LOW)
+        // here atvalid is 1
+        repeat(20)
+            `uvm_do (d_seq)
+
+        repeat(20)
+            `uvm_do (d_seq)
+        
+    endtask
+
+endclass: tx_ready_flag_seq
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                         tx_coherence_seq                                  //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+class tx_coherence_seq extends tx_sequence;
+     `uvm_object_utils(tx_coherence_seq)
+
+     data_sequence d_seq;
+    
+    function new (string name = "tx_coherence_seq");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running tx_coherence_seq...", UVM_LOW)
+
+        repeat(32)
+           // `uvm_do_with(d_seq, {req.atid == 2;}
+            `uvm_do (d_seq)
+        
+    endtask
+
+endclass: tx_coherence_seq
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                         tx_byte_order_seq                                  //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+class tx_byte_order_seq extends tx_sequence;
+     `uvm_object_utils(tx_byte_order_seq)
+
+     data_sequence d_seq;
+    
+    function new (string name = "tx_byte_order_seq");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running tx_byte_order_seq...", UVM_LOW)
+
+        repeat(40)
+           // `uvm_do_with(d_seq, {req.atid == 2;}
+            `uvm_do (d_seq)
+        
+    endtask
+
+endclass: tx_byte_order_seq
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                         tx_valid_data_seq                                  //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+class tx_valid_data_seq extends tx_sequence;
+     `uvm_object_utils(tx_valid_data_seq)
+
+     data_sequence d_seq;
+    
+    function new (string name = "tx_valid_data_seq");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running tx_valid_data_seq...", UVM_LOW)
+
+         //simple packet test, should sent 4
+        repeat(24) 
+            `uvm_do (d_seq)
+
+        //flush test, atbytes value should be 2
+        repeat(2)
+            `uvm_do (d_seq)
+        
+    endtask
+
+endclass: tx_valid_data_seq

@@ -36,6 +36,7 @@ class tx_driver extends uvm_driver #(tx_packet);
           
         forever begin
             @(posedge vif.atclk);
+            
             get_packet();
             full_data_packet();
             flush_signal_assert();
@@ -69,6 +70,8 @@ class tx_driver extends uvm_driver #(tx_packet);
     task get_packet();
         seq_item_port.get_next_item(req);
         trace_q.push_back(req.trace_data);
+        `uvm_info(get_type_name(), $sformatf("byte # %0d send: %0h ", count, req.trace_data), UVM_LOW);
+
         req.atvalid = 0;
         vif.atvalid = 0;
     endtask: get_packet
@@ -114,8 +117,9 @@ class tx_driver extends uvm_driver #(tx_packet);
         req.atvalid = 1;
         //wait (vif.atready);
         send_to_dut(req);
+        vif.afready = 1;
         req.atvalid = 0;
-        req.afready = 1;
+        //req.afready = 1;
         flush_packets++;
     end
     endtask: flush_signal_assert
@@ -155,10 +159,10 @@ class tx_driver extends uvm_driver #(tx_packet);
         //vif.atbytes = req.atbytes;
         vif.atid = req.atid;
         //vif.atvalid = req.atvalid;
-        //vif.afready = req.afready;
+        vif.afready = req.afready;
         //vif.syncreq = req.syncreq;
         //vif.atwakeup = req.atwakeup;
-        //`uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet SENT: \n%s", count+1, req.sprint()), UVM_LOW)   
+        `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet SENT: \n%s", count+1, req.sprint()), UVM_LOW)   
     endtask: send_to_dut
 
 //==========================================================================
