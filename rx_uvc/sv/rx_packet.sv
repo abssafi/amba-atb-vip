@@ -8,9 +8,11 @@ class rx_packet extends uvm_sequence_item;
     rand bit atready;
     rand bit afvalid; 
     rand bit syncreq;
+    bit [1:0] atbytes;
 
     `uvm_object_utils_begin(rx_packet)
-         `uvm_field_int(atdata, UVM_ALL_ON)
+        `uvm_field_int(atdata, UVM_ALL_ON)
+        `uvm_field_int(atbytes, UVM_ALL_ON)
         `uvm_field_int(atready, UVM_ALL_ON)
         `uvm_field_int(afvalid, UVM_ALL_ON)
         //`uvm_field_int(syncreq, UVM_ALL_ON)

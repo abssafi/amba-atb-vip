@@ -86,11 +86,6 @@ class data_sequence_testing extends tx_sequence;
         repeat(3)
             `uvm_do (d_seq)
         
-        #10;
-
-        repeat(28)
-            `uvm_do (d_seq)
-
     endtask
 
-endclass: data_sequence_testing 
+endclass: data_sequence_testing
