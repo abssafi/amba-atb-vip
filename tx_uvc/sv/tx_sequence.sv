@@ -274,7 +274,7 @@ class tx_exhaustive_seq extends tx_sequence;
         repeat(200) 
             `uvm_do (d_seq)
 
-        repeat (80)
+        repeat (1080)
             `uvm_do (d_seq)
 
         repeat (3)

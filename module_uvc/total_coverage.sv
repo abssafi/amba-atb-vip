@@ -24,6 +24,8 @@ class total_coverage extends uvm_component;
     bit afvalid; 
     bit syncreq;
 
+    real coverage;
+
     covergroup atb;
 
         c1: coverpoint trace_data;
@@ -71,7 +73,13 @@ class total_coverage extends uvm_component;
 
         atb.sample();
         pkt_rx_count++;
-        //`uvm_info("TOTAL COVERAGE (rX PACKETS)", $sformatf("%0d Packets Sampled", pkt_rx_count), UVM_LOW)
+        //`uvm_info("TOTAL COVERAGE (RX PACKETS)", $sformatf("%0d Packets Sampled", pkt_rx_count), UVM_LOW)
     endfunction: write
+
+
+    function void report_phase (uvm_phase phase);
+        coverage = $get_coverage();
+        `uvm_info("Total COVERAGE", $sformatf("%0d Packets Sampled, Coverage = %0d", pkt_tx_count + pkt_rx_count, coverage), UVM_LOW)
+    endfunction: report_phase
 
 endclass: total_coverage

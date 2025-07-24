@@ -355,7 +355,7 @@ class rx_exhaustive_seq extends rx_sequence;
         repeat(200)
             `uvm_do (signals_low)
 
-        repeat(80)
+        repeat(1080)
          `uvm_do (ready_high)
 
         `uvm_do(signals_low)
