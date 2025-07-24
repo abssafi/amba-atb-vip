@@ -24,7 +24,7 @@ class base_test extends uvm_test;
     task run_phase (uvm_phase phase);
         uvm_objection obj;
         obj = phase.get_objection();
-        obj.set_drain_time(this, 15);
+        obj.set_drain_time(this, 10);
     endtask: run_phase
 
 endclass: base_test
@@ -70,6 +70,28 @@ class clk_en_test extends base_test;
     endfunction: build_phase
 
 endclass: clk_en_test
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                          data_retention_test                               //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class data_retention_test extends base_test;
+    `uvm_component_utils(data_retention_test)
+
+    function new (string name = "data_retention_test", uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+
+    function void build_phase (uvm_phase phase);
+        uvm_config_int::set( this, "*", "recording_detail", 1); 
+        uvm_config_wrapper::set(this, "top_env.tx_uvc.agent.sequencer.run_phase", "default_sequence", tx_data_retention_seq::get_type());
+        uvm_config_wrapper::set(this, "top_env.rx_uvc.agent.sequencer.run_phase", "default_sequence", rx_data_retention_seq::get_type());
+
+        `uvm_info(get_type_name, "BUILD PHASE RUNNING...", UVM_LOW)
+        super.build_phase(phase);
+    endfunction: build_phase
+
+endclass: data_retention_test
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////                          flush_seq_test                                    //////////////////////////
@@ -141,7 +163,7 @@ endclass: coherence_test
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////                          Byte_order_test                                   //////////////////////////
+//////////////////////////                          byte_order_test                                   //////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Byte_order_test extends base_test;
@@ -185,3 +207,25 @@ class valid_data_test extends base_test;
     endfunction: build_phase
 
 endclass: valid_data_test
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                          atbytes_test                                       //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class atbytes_test extends base_test;
+    `uvm_component_utils(atbytes_test)
+
+    function new (string name = "atbytes_test", uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+
+    function void build_phase (uvm_phase phase);
+        uvm_config_int::set( this, "*", "recording_detail", 1); 
+        uvm_config_wrapper::set(this, "top_env.tx_uvc.agent.sequencer.run_phase", "default_sequence", tx_at_bytes_seq::get_type());
+        uvm_config_wrapper::set(this, "top_env.rx_uvc.agent.sequencer.run_phase", "default_sequence", rx_at_bytes_seq::get_type());
+
+        `uvm_info(get_type_name, "BUILD PHASE RUNNING...", UVM_LOW)
+        super.build_phase(phase);
+    endfunction: build_phase
+
+endclass: atbytes_test

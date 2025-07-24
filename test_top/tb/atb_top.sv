@@ -18,16 +18,16 @@ module atb_top;
     initial begin
         uvm_config_db#(virtual atb_if)::set(null, "*.top_env.tx_uvc.agent.*", "vif", t_if);
         uvm_config_db#(virtual atb_if)::set(null, "*.top_env.rx_uvc.agent.*", "vif", t_if);
-        run_test("clk_en_test");
+        run_test("atbytes_test");
     end
 
     initial begin 
         atclk = 0;
-        atclken = 0;
+        atclken = 1;
         atresetn = 0;
         #10;
         atresetn = 1;
-        atclken = 1;
+        //atclken = 1;
     end
 
     always #5 atclk = ~atclk;

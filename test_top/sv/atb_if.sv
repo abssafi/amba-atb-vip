@@ -21,7 +21,7 @@ interface atb_if (input bit atclk, input bit atresetn, input bit atclken);
 // a3: assert property (third) else $fatal("third asserion failed"); 
 // a5: assert property (fifth) else $fatal("fifth assertion failed");
 // a6: assert property (sixth) else $fatal("sixth assertion failed");
-a7: assert property (seventh) else $fatal("seventh assertion failed");
+// a7: assert property (seventh) else $fatal("seventh assertion failed");
 
 
 

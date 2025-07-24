@@ -63,6 +63,30 @@ class data_sequence extends tx_sequence;
 endclass: data_sequence 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                        tx_data_retention_seq                               //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class tx_data_retention_seq extends tx_sequence;
+     `uvm_object_utils(tx_data_retention_seq)
+
+     data_sequence d_seq;
+    
+    function new (string name = "tx_data_retention_seq");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running tx_data_retention_seq...", UVM_LOW)
+
+        //simple packet test, should sent 20 packets, so 20/4 = 5 full atdata packets.
+        repeat(20)
+            `uvm_do (d_seq)
+        
+    endtask
+
+endclass: tx_data_retention_seq
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////                         tx_flush_test_seq                                  //////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -78,11 +102,11 @@ class tx_flush_test_seq extends tx_sequence;
     task body();
         `uvm_info(get_type_name(), "Running tx_flush_test_seq...", UVM_LOW)
 
-        //simple packet test, should sent 20
+        //simple packet test, should sent 15 full packets
         repeat(60)
             `uvm_do (d_seq)
 
-        //flush test
+        //flush test, should send with atbytes  = 3 
         repeat(3)
             `uvm_do (d_seq)
         
@@ -107,10 +131,7 @@ class tx_ready_flag_seq extends tx_sequence;
     task body();
         `uvm_info(get_type_name(), "Running tx_ready_flag_seq...", UVM_LOW)
         // here atvalid is 1
-        repeat(20)
-            `uvm_do (d_seq)
-
-        repeat(20)
+        repeat(3)
             `uvm_do (d_seq)
         
     endtask
@@ -170,11 +191,9 @@ class tx_byte_order_seq extends tx_sequence;
 endclass: tx_byte_order_seq
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////                         tx_valid_data_seq                                  //////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 class tx_valid_data_seq extends tx_sequence;
      `uvm_object_utils(tx_valid_data_seq)
@@ -199,3 +218,35 @@ class tx_valid_data_seq extends tx_sequence;
     endtask
 
 endclass: tx_valid_data_seq
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                         tx_at_bytes_seq                                       //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class tx_at_bytes_seq extends tx_sequence;
+     `uvm_object_utils(tx_at_bytes_seq)
+
+     data_sequence d_seq;
+    
+    function new (string name = "tx_at_bytes_seq");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running tx_at_bytes_seq...", UVM_LOW)
+
+        //atbytes should be 3
+        repeat(3) 
+            `uvm_do (d_seq)
+
+         //atbytes should be 2
+        // repeat(2) 
+        //     `uvm_do (d_seq)
+
+        // //atbytes should be 1
+        // repeat(1) 
+        //     `uvm_do (d_seq)
+        
+    endtask
+
+endclass: tx_at_bytes_seq

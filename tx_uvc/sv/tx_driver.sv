@@ -42,7 +42,7 @@ class tx_driver extends uvm_driver #(tx_packet);
                 get_packet();
                 full_data_packet();
                 flush_signal_assert();
-                assert_afready();
+                // assert_afready();
                 tx_coverage_collect.write(req);
                 queue_packet_if_valid();
                 send_packet_if_ready();
@@ -75,8 +75,9 @@ class tx_driver extends uvm_driver #(tx_packet);
         trace_q.push_back(req.trace_data);
         `uvm_info(get_type_name(), $sformatf("byte # %0d send: %0h ", count, req.trace_data), UVM_LOW);
 
-        req.atvalid = 0;
-        vif.atvalid = 0;
+        //req.atvalid = 0;
+        //vif.atvalid = 0;
+
     endtask: get_packet
 
 //==========================================================================
@@ -122,7 +123,7 @@ class tx_driver extends uvm_driver #(tx_packet);
         send_to_dut(req);
         vif.afready = 1;
         req.atvalid = 0;
-        //req.afready = 1;
+        req.afready = 1;
         flush_packets++;
     end
     endtask: flush_signal_assert
@@ -149,6 +150,7 @@ class tx_driver extends uvm_driver #(tx_packet);
             req.atbytes = 4;
             tx_q.push_back(req);
             atvalid_n++;
+            //$display("Stored in 1122");
         end
     endtask: queue_packet_if_valid
 
@@ -157,7 +159,7 @@ class tx_driver extends uvm_driver #(tx_packet);
 //==========================================================================
 
     task send_packet_if_ready();
-        if (vif.atready && vif.atvalid) begin
+        if (vif.atvalid) begin
             $display("sending to bus (from tx)");
             send_p = tx_q.pop_front();
             send_to_dut(send_p);
@@ -172,10 +174,10 @@ class tx_driver extends uvm_driver #(tx_packet);
     task send_to_dut(tx_packet req);
         `uvm_info(get_type_name(), "send_to_dut() CALLED", UVM_LOW)
         vif.atdata = req.atdata;
-        //vif.atbytes = req.atbytes;
+        vif.atbytes = req.atbytes;
         vif.atid = req.atid;
         //vif.atvalid = req.atvalid;
-        vif.afready = req.afready;
+        //vif.afready = req.afready;
         //vif.syncreq = req.syncreq;
         //vif.atwakeup = req.atwakeup;
         `uvm_info(get_type_name(), $sformatf("Transaction # %0d - Packet SENT: \n%s", count+1, req.sprint()), UVM_LOW)   

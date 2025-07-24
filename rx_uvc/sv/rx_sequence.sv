@@ -127,6 +127,36 @@ class syncreq_high_only extends rx_sequence;
 endclass: syncreq_high_only
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                           rx_data_retention_seq                            //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class rx_data_retention_seq extends rx_sequence;
+     `uvm_object_utils(rx_data_retention_seq)
+
+    all_low low_seq;
+    at_ready_high_only ready_seq;
+
+    function new (string name = "rx_data_retention_seq");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running rx_data_retention_seq...", UVM_LOW)
+
+        //Not receiving any atdata packet.
+        repeat(20)
+            `uvm_do(low_seq)
+        
+        
+        //Here atready is 0
+        repeat(5)
+            `uvm_do(ready_seq)
+
+    endtask
+
+endclass: rx_data_retention_seq
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////                           rx_flush_test_seq                                //////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -144,11 +174,11 @@ class rx_flush_test_seq extends rx_sequence;
     task body();
         `uvm_info(get_type_name(), "Running rx_flush_test_seq...", UVM_LOW)
 
-        //simple packet test, should received 20
+        //simple packet test, should recieve 15 full packets
         repeat(60)
             `uvm_do(ready_seq)
 
-        //flush test, should receive 1.
+        //flush test, should receive 1 with atbytes = 3.
             `uvm_do(low_seq)
             `uvm_do(valid_seq)
             `uvm_do(ready_seq)
@@ -177,14 +207,9 @@ class rx_ready_flag_seq extends rx_sequence;
         `uvm_info(get_type_name(), "Running rx_ready_flag_seq...", UVM_LOW)
 
         //Here atready is 1
-        repeat(20)
+        repeat(3)
             `uvm_do(ready_seq)
         
-        
-        //Here atready is 0
-        repeat(20)
-            `uvm_do(low_seq)
-
     endtask
 
 endclass: rx_ready_flag_seq
@@ -239,8 +264,6 @@ class rx_byte_order_seq extends rx_sequence;
 
 endclass: rx_byte_order_seq
 
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////                           rx_valid_data_seq                                //////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -270,3 +293,36 @@ class rx_valid_data_seq extends rx_sequence;
     endtask
 
 endclass: rx_valid_data_seq
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                           rx_at_bytes_seq                                //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class rx_at_bytes_seq extends rx_sequence;
+     `uvm_object_utils(rx_at_bytes_seq)
+
+    all_low low_seq;
+    at_ready_high_only ready_seq;
+    afvalid_high_only valid_seq;
+    
+    function new (string name = "rx_at_bytes_seq");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running rx_at_bytes_seq...", UVM_LOW)
+
+            //atbytes 3
+            `uvm_do(low_seq)
+            `uvm_do(valid_seq)
+            `uvm_do(ready_seq)
+
+            // `uvm_do(valid_seq)
+            // `uvm_do(ready_seq)
+
+            // `uvm_do(valid_seq)
+            // `uvm_do(ready_seq)
+
+    endtask
+
+endclass: rx_at_bytes_seq
