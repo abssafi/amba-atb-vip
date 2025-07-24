@@ -1,6 +1,6 @@
-interface atb_if (input bit atclk, input bit atresetn);
+interface atb_if (input bit atclk, input bit atresetn, input bit atclken);
 
-    logic atclken;
+    //logic atclken;
 
     logic [31:0] atdata;
     logic [2:0] atbytes;

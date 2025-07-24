@@ -30,6 +30,48 @@ class base_test extends uvm_test;
 endclass: base_test
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                          running_mcseq                                     //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class running_mcseq extends base_test;
+    `uvm_component_utils(running_mcseq)
+
+    function new (string name = "running_mcseq", uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+
+    function void build_phase (uvm_phase phase);
+
+        uvm_config_wrapper::set(this, "top_env.mcseq.run_phase", "default_sequence", flag_mcseq::get_type());
+
+        `uvm_info(get_type_name, "BUILD PHASE RUNNING...", UVM_LOW)
+        super.build_phase(phase);
+    endfunction: build_phase
+
+endclass: running_mcseq
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                          clk_en_test                                       //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class clk_en_test extends base_test;
+    `uvm_component_utils(clk_en_test)
+
+    function new (string name = "clk_en_test", uvm_component parent);
+        super.new(name, parent);
+    endfunction: new
+
+    function void build_phase (uvm_phase phase);
+
+        uvm_config_wrapper::set(this, "top_env.mcseq.run_phase", "default_sequence", flag_mcseq::get_type());
+
+        `uvm_info(get_type_name, "BUILD PHASE RUNNING...", UVM_LOW)
+        super.build_phase(phase);
+    endfunction: build_phase
+
+endclass: clk_en_test
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////                          flush_seq_test                                    //////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -143,26 +185,3 @@ class valid_data_test extends base_test;
     endfunction: build_phase
 
 endclass: valid_data_test
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////                          running_mcseq                                   //////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-class running_mcseq extends base_test;
-    `uvm_component_utils(running_mcseq)
-
-    function new (string name = "running_mcseq", uvm_component parent);
-        super.new(name, parent);
-    endfunction: new
-
-    function void build_phase (uvm_phase phase);
-
-        uvm_config_wrapper::set(this, "top_env.mcseq.run_phase", "default_sequence", flag_mcseq::get_type());
-
-        `uvm_info(get_type_name, "BUILD PHASE RUNNING...", UVM_LOW)
-        super.build_phase(phase);
-    endfunction: build_phase
-
-endclass: running_mcseq

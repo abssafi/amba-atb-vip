@@ -33,19 +33,21 @@ class tx_driver extends uvm_driver #(tx_packet);
 
         wait(vif.atresetn == 1);
             `uvm_info(get_type_name(), "Reset Deactivated!", UVM_LOW);
+
+        wait (vif.atclken)
+            `uvm_info(get_type_name(), "atclken Asserted", UVM_LOW);
           
         forever begin
             @(posedge vif.atclk);
-            
-            get_packet();
-            full_data_packet();
-            flush_signal_assert();
-            assert_afready();
-            tx_coverage_collect.write(req);
-            queue_packet_if_valid();
-            send_packet_if_ready();
-            count++;
-            seq_item_port.item_done(req);
+                get_packet();
+                full_data_packet();
+                flush_signal_assert();
+                assert_afready();
+                tx_coverage_collect.write(req);
+                queue_packet_if_valid();
+                send_packet_if_ready();
+                count++;
+                seq_item_port.item_done(req);
         end
 
     endtask: run_phase

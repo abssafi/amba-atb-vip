@@ -1,0 +1,61 @@
+
+#
+# Mnemonic Maps
+#
+mmap new  -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new  -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+#
+# Conditions
+#
+set expression atb_top.t_if.atwakeup
+if {[catch {condition new -name  condition -expr $expression}] != ""} {
+    condition set -using condition -expr $expression
+}
+
+array unset createdGroup
+array set createdGroup {}
+set id [waveform add -signals [subst  {
+	{[format {atb_top.t_if.atclk}]}
+	} ]]
+waveform format $id -bgcolor #999999
+set id [waveform add -signals [subst  {
+	{[format {atb_top.t_if.atclken}]}
+	} ]]
+waveform format $id -bgcolor #999999
+set id [waveform add -signals [subst  {
+	{[format {atb_top.t_if.atresetn}]}
+	} ]]
+waveform format $id -bgcolor #999999
+set id [waveform add -signals [subst  {
+	{[format {atb_top.t_if.atvalid}]}
+	} ]]
+waveform format $id -bgcolor #ff9900
+set id [waveform add -signals [subst  {
+	{[format {atb_top.t_if.atbytes[2:0]}]}
+	} ]]
+waveform format $id -bgcolor #ff9900
+set id [waveform add -signals [subst  {
+	{[format {atb_top.t_if.atdata[31:0]}]}
+	} ]]
+waveform format $id -bgcolor #ff9900
+set id [waveform add -signals [subst  {
+	{[format {atb_top.t_if.atid[6:0]}]}
+	} ]]
+waveform format $id -bgcolor #ff9900
+set id [waveform add -signals [subst  {
+	{[format {atb_top.t_if.afready}]}
+	} ]]
+waveform format $id -bgcolor #ff9900
+set id [waveform add -signals [subst  {
+	{[format {atb_top.t_if.atready}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {atb_top.t_if.afvalid}]}
+	} ]]
+
+waveform xview limits 0 2000ps

@@ -9,9 +9,9 @@ class tx_packet extends uvm_sequence_item;
     bit [2:0] atbytes;
     rand bit [6:0] atid;
     bit [31:0] atdata;
-    bit atvalid;          
-    bit afready;        
-    bit atwakeup;        
+    bit atvalid;
+    bit afready; 
+    bit atwakeup;
 
     `uvm_object_utils_begin(tx_packet)
         //`uvm_field_int(trace_data, UVM_ALL_ON)
