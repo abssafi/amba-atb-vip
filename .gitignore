@@ -6,3 +6,6 @@ qaLog.txt
 cov_work/
 xcelium.d/
 *waves.shm
+*.diag
+*.bpad
+*.shm
