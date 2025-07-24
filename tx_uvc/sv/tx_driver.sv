@@ -17,6 +17,7 @@ class tx_driver extends uvm_driver #(tx_packet);
     int byte_n;
     int bte;
     int flush_packets;
+    int byte_number;
 
     function void build_phase(uvm_phase phase);
         super.build_phase (phase);
@@ -42,7 +43,7 @@ class tx_driver extends uvm_driver #(tx_packet);
                 get_packet();
                 full_data_packet();
                 flush_signal_assert();
-                // assert_afready();
+                //assert_afready();
                 tx_coverage_collect.write(req);
                 queue_packet_if_valid();
                 send_packet_if_ready();
@@ -73,10 +74,15 @@ class tx_driver extends uvm_driver #(tx_packet);
     task get_packet();
         seq_item_port.get_next_item(req);
         trace_q.push_back(req.trace_data);
-        `uvm_info(get_type_name(), $sformatf("byte # %0d send: %0h ", count, req.trace_data), UVM_LOW);
+        // if (byte_number < 4) begin
+        //     `uvm_info(get_type_name(), $sformatf("byte # %0d send: %0h ", byte_number, req.trace_data), UVM_LOW);
+        //     byte_number++;
+        // end
+        // else
+        //     byte_number = 0;
 
-        //req.atvalid = 0;
-        //vif.atvalid = 0;
+        req.atvalid = 0;
+        vif.atvalid = 0;
 
     endtask: get_packet
 
@@ -103,6 +109,7 @@ class tx_driver extends uvm_driver #(tx_packet);
 
     task flush_signal_assert();
     if (vif.afvalid == 1 && trace_q.size() > 0) begin
+        $display("Flush called");
         req.atbytes = 0;
         for (int i = 0; i < 4 && trace_q.size() > 0; i++) begin
             bte = trace_q.pop_front();
@@ -159,7 +166,7 @@ class tx_driver extends uvm_driver #(tx_packet);
 //==========================================================================
 
     task send_packet_if_ready();
-        if (vif.atvalid) begin
+        if (vif.atvalid && vif.atready) begin
             $display("sending to bus (from tx)");
             send_p = tx_q.pop_front();
             send_to_dut(send_p);

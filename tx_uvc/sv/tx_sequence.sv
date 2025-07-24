@@ -51,7 +51,7 @@ class data_sequence extends tx_sequence;
 
     task body();
         bit ok;
-        `uvm_info(get_type_name(), "Running data_sequence...", UVM_LOW)
+        //`uvm_info(get_type_name(), "Running data_sequence...", UVM_LOW)
         `uvm_create(req)
         start_item(req);
         ok = req.randomize();
@@ -236,7 +236,7 @@ class tx_at_bytes_seq extends tx_sequence;
         `uvm_info(get_type_name(), "Running tx_at_bytes_seq...", UVM_LOW)
 
         //atbytes should be 3
-        repeat(3) 
+        repeat(25) 
             `uvm_do (d_seq)
 
          //atbytes should be 2
@@ -250,3 +250,36 @@ class tx_at_bytes_seq extends tx_sequence;
     endtask
 
 endclass: tx_at_bytes_seq
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                         tx_exhaustive_seq                                  //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class tx_exhaustive_seq extends tx_sequence;
+     `uvm_object_utils(tx_exhaustive_seq)
+
+     data_sequence d_seq;
+    
+    function new (string name = "tx_exhaustive_seq");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running tx_exhaustive_seq...", UVM_LOW)
+
+         //simple packet test, should sent 250
+        repeat(1000) 
+            `uvm_do (d_seq)
+        
+        repeat(200) 
+            `uvm_do (d_seq)
+
+        repeat (80)
+            `uvm_do (d_seq)
+
+        repeat (3)
+            `uvm_do (d_seq)
+        
+    endtask
+
+endclass: tx_exhaustive_seq

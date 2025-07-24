@@ -50,7 +50,7 @@ class all_low extends rx_sequence;
     endfunction
 
     task body();
-        `uvm_info(get_type_name(), "Running all_low...", UVM_LOW)
+        //`uvm_info(get_type_name(), "Running all_low...", UVM_LOW)
         `uvm_do_with(req, {
             req.atready == 0;
             req.afvalid == 0;
@@ -72,7 +72,7 @@ class at_ready_high_only extends rx_sequence;
     endfunction
 
     task body();
-        `uvm_info(get_type_name(), "Running at_ready_high_only...", UVM_LOW)
+        //`uvm_info(get_type_name(), "Running at_ready_high_only...", UVM_LOW)
         `uvm_do_with(req, {
             req.atready == 1;
             req.afvalid == 0;
@@ -94,7 +94,7 @@ class afvalid_high_only extends rx_sequence;
     endfunction
 
     task body();
-        `uvm_info(get_type_name(), "Running afvalid_high_only...", UVM_LOW)
+        //`uvm_info(get_type_name(), "Running afvalid_high_only...", UVM_LOW)
         `uvm_do_with(req, {
             req.atready == 0;
             req.afvalid == 1;
@@ -280,7 +280,7 @@ class rx_valid_data_seq extends rx_sequence;
     endfunction
 
     task body();
-        `uvm_info(get_type_name(), "Running rx_valid_data_seq...", UVM_LOW)
+        //`uvm_info(get_type_name(), "Running rx_valid_data_seq...", UVM_LOW)
 
         repeat(16) begin
             `uvm_do(ready_seq)
@@ -310,12 +310,15 @@ class rx_at_bytes_seq extends rx_sequence;
     endfunction
 
     task body();
-        `uvm_info(get_type_name(), "Running rx_at_bytes_seq...", UVM_LOW)
+        //`uvm_info(get_type_name(), "Running rx_at_bytes_seq...", UVM_LOW)
+
+            repeat(25)
+                `uvm_do(ready_seq)
 
             //atbytes 3
-            `uvm_do(low_seq)
-            `uvm_do(valid_seq)
-            `uvm_do(ready_seq)
+            // `uvm_do(low_seq)
+            // `uvm_do(valid_seq)
+            // `uvm_do(ready_seq)
 
             // `uvm_do(valid_seq)
             // `uvm_do(ready_seq)
@@ -326,3 +329,39 @@ class rx_at_bytes_seq extends rx_sequence;
     endtask
 
 endclass: rx_at_bytes_seq
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////                         rx_exhaustive_seq                                  //////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class rx_exhaustive_seq extends rx_sequence;
+     `uvm_object_utils(rx_exhaustive_seq)
+
+     at_ready_high_only ready_high;
+     all_low            signals_low;
+     afvalid_high_only  valid_seq;
+    
+    function new (string name = "rx_exhaustive_seq");
+        super.new(name);
+    endfunction
+
+    task body();
+        `uvm_info(get_type_name(), "Running rx_exhaustive_seq...", UVM_LOW)
+
+         //simple packet test, should receive 250
+        repeat(1000) 
+            `uvm_do (ready_high)
+
+        repeat(200)
+            `uvm_do (signals_low)
+
+        repeat(80)
+         `uvm_do (ready_high)
+
+        `uvm_do(signals_low)
+        `uvm_do(valid_seq)
+        `uvm_do(ready_high)
+        
+    endtask
+
+endclass: rx_exhaustive_seq
