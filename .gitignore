@@ -5,7 +5,7 @@ qaLog.txt
 *.history
 cov_work/
 xcelium.d/
-*waves.shm
+waves.shm
 *.diag
-*.bpad
-*.shm
+.bpad
+xcelium.shm
