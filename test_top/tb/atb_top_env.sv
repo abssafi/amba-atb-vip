@@ -6,6 +6,7 @@ class atb_test_env extends uvm_env;
 
     atb_scoreboard atb_sb;
     total_coverage coverage_collecter;
+    mcsequencer mcseq;
 
     function new (string name = "atb_test_env", uvm_component parent);
         super.new(name, parent);
@@ -15,6 +16,7 @@ class atb_test_env extends uvm_env;
         tx_uvc = tx_env::type_id::create("tx_uvc", this);
         rx_uvc = rx_env::type_id::create("rx_uvc", this);
         atb_sb = atb_scoreboard::type_id::create("atb_sb", this);
+        mcseq  = mcsequencer::type_id::create("mcseq", this);
         coverage_collecter = total_coverage::type_id::create("coverage_collecter", this);
         super.build_phase(phase);
         `uvm_info(get_type_name, "BUILD PHASE RUNNING...", UVM_LOW)
@@ -27,6 +29,8 @@ class atb_test_env extends uvm_env;
         tx_uvc.agent.driver.tx_coverage_collect.connect(coverage_collecter.tx_cg);
         rx_uvc.agent.driver.rx_coverage_collect.connect(coverage_collecter.rx_cg);
 
+        mcseq.tx_seqr = tx_uvc.agent.sequencer;
+        mcseq.rx_seqr = rx_uvc.agent.sequencer;
     endfunction
 
 endclass: atb_test_env

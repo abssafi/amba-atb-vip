@@ -4,6 +4,8 @@ module atb_top;
     `include "uvm_macros.svh"
     import tx_pkg::*;
     import rx_pkg::*;
+    `include "../sv/mcsequencer.sv"
+    `include "../sv/mcsequence.sv"
     `include "atb_scoreboard.sv"
     `include "total_coverage.sv"
     `include "atb_top_env.sv"
@@ -16,7 +18,7 @@ module atb_top;
     initial begin
         uvm_config_db#(virtual atb_if)::set(null, "*.top_env.tx_uvc.agent.*", "vif", t_if);
         uvm_config_db#(virtual atb_if)::set(null, "*.top_env.rx_uvc.agent.*", "vif", t_if);
-        run_test("valid_data_test");
+        run_test("running_mcseq");
     end
 
     initial begin 
