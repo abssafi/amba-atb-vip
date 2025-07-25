@@ -15,49 +15,21 @@ interface atb_if (input bit atclk, input bit atresetn, input bit atclken);
     logic syncreq;
     logic atwakeup;
 
-// a4: assert property (fourth) else $fatal("fourth asserion failed"); 
-// a1: assert property (first) else $fatal("first asserion failed"); 
-// a2: assert property (second) else $fatal("second asserion failed"); 
-// a3: assert property (third) else $fatal("third asserion failed"); 
-// a5: assert property (fifth) else $fatal("fifth assertion failed");
-// a6: assert property (sixth) else $fatal("sixth assertion failed");
-// a7: assert property (seventh) else $fatal("seventh assertion failed");
+a1: assert property (atdata_not_zero) else $fatal("assertion a1 failed");
+a2: assert property (afvalid_low_after_atvalid_atready) else $fatal("assertion a3 failed"); 
+a3: assert property (atid_reserved_value) else $fatal("assertion a4 failed"); 
 
-
-
-// property first; 
-// (@(posedge atclk) (atvalid |-> (atbytes==4)));
-// endproperty
-
-
-// property second;
-// (@(posedge atclk) (atvalid |-> atready));
-// endproperty
-
-// property third;
-// (@(posedge atclk) (!atvalid |-> !atready));
-// endproperty
-
-// property fourth;
-// (@(posedge atclk) (atvalid && atready |-> (atdata !== '0)));
-// endproperty
-
-//data should be zero when atvalid is 0. 
-
-// property fifth;
-// (@(posedge atclk) (atvalid == 0 |-> atdata == 0));
-//endproperty
-
-// property sixth;
-//  @(posedge atclk) (afvalid && afready |=> !afvalid) ;
-// endproperty
-
-
-property seventh;
-@(posedge atclk) (atvalid && atready) |->
-      !((atid == 7'h00) || ((atid >= 7'h70) && (atid <= 7'h7C)) || (atid == 7'h7E) || (atid == 7'h7F));
+property atdata_not_zero;
+    (@(posedge atclk) (atvalid && atready |-> (atdata !== '0)));
 endproperty
 
+property afvalid_low_after_atvalid_atready;
+    @(posedge atclk) (afvalid && afready |=> !afvalid) ;
+endproperty
 
+property atid_reserved_value;
+@(posedge atclk) (atvalid && atready) |->
+      !(((atid >= 7'h70) && (atid <= 7'h7C)) || (atid == 7'h7E) || (atid == 7'h7F));
+endproperty
 
 endinterface : atb_if
